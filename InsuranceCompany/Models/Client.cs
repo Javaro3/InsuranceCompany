@@ -18,6 +18,4 @@ public partial class Client {
     public string PassportNumber { get; set; } = null!;
 
     public DateTime PassportIssueDate { get; set; }
-
-    public virtual ICollection<Policy> Policies { get; set; } = new List<Policy>();
 }

@@ -23,12 +23,12 @@ namespace InsuranceCompany.Data.DbInitializer {
                 InitializeSupportingDocuments(db);
             }
 
-            if (!db.InsuranceCases.Any()) {
-                InitializeInsuranceCases(db);
-            }
-
             if (!db.Clients.Any()) {
                 InitializeClients(db);
+            }
+
+            if (!db.InsuranceCases.Any()) {
+                InitializeInsuranceCases(db);
             }
 
             if (!db.InsuranceTypes.Any()) {
@@ -39,21 +39,21 @@ namespace InsuranceCompany.Data.DbInitializer {
                 InitializePolicies(db);
             }
 
-            if (!db.PolicyInsuranceCases.Any()) {
-                InitializePolicyInsuranceCases(db);
+            if (!db.PolicyClients.Any()) {
+                InitializePolicyClients(db);
             }
 
             db.SaveChanges();
         }
 
-        private static void InitializePolicyInsuranceCases(InsuranceCompanyContext db) {
+        private static void InitializePolicyClients(InsuranceCompanyContext db) {
             for (int i = 0; i < 100; i++) {
                 int policyId = rand.Next(1, 101);
-                int insuranceCaseId = rand.Next(1, 101);
+                int clientId = rand.Next(1, 101);
 
-                db.Add(new PolicyInsuranceCase() {
+                db.Add(new PolicyClient() {
                     PolicyId = policyId,
-                    InsuranceCaseId = insuranceCaseId
+                    ClientId = clientId
                 });
             }
             db.SaveChanges();
@@ -65,7 +65,6 @@ namespace InsuranceCompany.Data.DbInitializer {
                 var applicationDate = rand.NextDate(2010, 2023);
                 string policyNumber = rand.NextPolicyNumber();
                 int insuranceTypeId = rand.Next(1, InitializeData.InsuranceTypeNames.Count + 1);
-                int clientId = rand.Next(1, 101);
                 int policyTerm = rand.Next(1, 20);
                 decimal policyPayment = (decimal)(100 * rand.NextDouble());
 
@@ -74,7 +73,6 @@ namespace InsuranceCompany.Data.DbInitializer {
                     ApplicationDate = applicationDate,
                     PolicyNumber = policyNumber,
                     InsuranceTypeId = insuranceTypeId,
-                    ClientId = clientId,
                     PolicyTerm = policyTerm,
                     PolicyPayment = policyPayment
                 });
@@ -120,11 +118,13 @@ namespace InsuranceCompany.Data.DbInitializer {
                 var date = rand.NextDate(2010, 2023);
                 int supportingDocumentId = rand.Next(1, InitializeData.SupportingDocumentNames.Count + 1);
                 decimal insurancePayment = (decimal)(100 * rand.NextDouble());
+                int clientId = rand.Next(1, 101);
 
                 db.Add(new InsuranceCase() {
                     Date = date,
                     SupportingDocumentId = supportingDocumentId,
-                    InsurancePayment = insurancePayment
+                    InsurancePayment = insurancePayment,
+                    ClientId = clientId
                 });
             }
             db.SaveChanges();
@@ -151,11 +151,16 @@ namespace InsuranceCompany.Data.DbInitializer {
                 var startDeadline = rand.NextDate(2010, 2023);
                 var endDeadline = startDeadline.AddMonths(rand.Next(1, 20));
                 var responsibilities = rand.NextItem(InitializeData.Responsibilities);
+                decimal salary = (decimal)(100 * rand.NextDouble());
+                double transactionPercent = rand.NextDouble();
+
                 db.Add(
                     new Contract() {
                         Responsibilities = responsibilities,
                         StartDeadline = startDeadline,
                         EndDeadline = endDeadline,
+                        Salary = salary,
+                        TransactionPercent = transactionPercent
                     });
             }
             db.SaveChanges();
@@ -168,8 +173,7 @@ namespace InsuranceCompany.Data.DbInitializer {
                 string middleName = rand.NextItem(InitializeData.MiddleNames);
                 int agentTypeId = rand.Next(1, InitializeData.AgentTypes.Count + 1);
                 int contractId = rand.Next(1, 101);
-                decimal salary = (decimal)(100 * rand.NextDouble());
-                double transactionPercent = rand.NextDouble();
+                
 
                 db.Add(
                     new InsuranceAgent() {
@@ -178,8 +182,7 @@ namespace InsuranceCompany.Data.DbInitializer {
                         MiddleName = middleName,
                         AgentTypeId = agentTypeId,
                         ContractId = contractId,
-                        Salary = salary,
-                        TransactionPercent = transactionPercent
+                        
                     });
             }
             db.SaveChanges();

@@ -9,5 +9,10 @@ public partial class Contract {
 
     public DateTime EndDeadline { get; set; }
 
+    public decimal Salary { get; set; }
+
+    public double TransactionPercent { get; set; }
+
     public virtual ICollection<InsuranceAgent> InsuranceAgents { get; set; } = new List<InsuranceAgent>();
+    
 }

@@ -11,11 +11,7 @@ public partial class InsuranceAgent {
 
     public int AgentTypeId { get; set; }
 
-    public decimal Salary { get; set; }
-
     public int ContractId { get; set; }
-
-    public double TransactionPercent { get; set; }
 
     public virtual AgentType AgentType { get; set; } = null!;
 

@@ -11,13 +11,9 @@ public partial class Policy {
 
     public int InsuranceTypeId { get; set; }
 
-    public int ClientId { get; set; }
-
     public int PolicyTerm { get; set; }
 
     public decimal PolicyPayment { get; set; }
-
-    public virtual Client Client { get; set; } = null!;
 
     public virtual InsuranceAgent InsuranceAgent { get; set; } = null!;
 

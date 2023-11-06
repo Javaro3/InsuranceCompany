@@ -11,5 +11,9 @@ public partial class InsuranceCase {
 
     public decimal InsurancePayment { get; set; }
 
+    public int ClientId { get; set; }
+
     public virtual SupportingDocument SupportingDocument { get; set; } = null!;
+
+    public virtual Client Client { get; set; } = null!;
 }
