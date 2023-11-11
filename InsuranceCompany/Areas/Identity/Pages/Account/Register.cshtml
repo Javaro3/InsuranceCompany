@@ -1,0 +1,142 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<style>.hidden { display: none;} </style>
+<h1 class="text-center">@ViewData["Title"]</h1>
+<div class="row d-flex justify-content-center">   
+    <div class="col-md-4">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Name" class="form-control" autocomplete="Name" aria-required="true" placeholder="Имя" />
+                <label asp-for="Input.Name">Имя</label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Surname" class="form-control" autocomplete="Surname" aria-required="true" placeholder="Фамилия" />
+                <label asp-for="Input.Surname">Фамилия</label>
+                <span asp-validation-for="Input.Surname" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.MiddleName" class="form-control" autocomplete="MiddleName" aria-required="true" placeholder="Отчество" />
+                <label asp-for="Input.MiddleName">Отчество</label>
+                <span asp-validation-for="Input.MiddleName" class="text-danger"></span>
+            </div>
+
+            <div id="Client" class="hidden">
+                <div class="form-floating mb-3">
+                    <input asp-for="ClientInput.BrithDate" class="form-control" autocomplete="Date" aria-required="true" placeholder="Дата рождения" />
+                    <label asp-for="ClientInput.BrithDate">Дата рождения</label>
+                    <span asp-validation-for="ClientInput.BrithDate" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="ClientInput.MobilePhone" id="inputPhone" value="+375 __ ___-__-__" class="form-control phone" autocomplete="MobilePhone" aria-required="true" placeholder="Номер телефона" />
+                    <label asp-for="ClientInput.MobilePhone">Номер телефона</label>
+                    <span asp-validation-for="ClientInput.MobilePhone" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="ClientInput.Address" class="form-control" autocomplete="Address" aria-required="true" placeholder="Адрес" />
+                    <label asp-for="ClientInput.Address">Адрес</label>
+                    <span asp-validation-for="ClientInput.Address" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="ClientInput.PassportNumber" id="passportNumberInput" oninput="passportValidateInput()" maxlength="9" pattern="[A-Z]{2}\d{7}" class="form-control" autocomplete="PassportNumber" aria-required="true" placeholder="Номер пасспорта" />
+                    <label asp-for="ClientInput.PassportNumber">Номер пасспорта</label>
+                    <span asp-validation-for="ClientInput.PassportNumber" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="ClientInput.PassportIssueDate" class="form-control" autocomplete="PassportIssueDate" aria-required="true" placeholder="Дата выдачи пасспорта" />
+                    <label asp-for="ClientInput.PassportIssueDate">Дата выдачи пасспорта</label>
+                    <span asp-validation-for="ClientInput.PassportIssueDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div id="InsuranceAgent" class="hidden">
+                <div class="form-floating mb-3">
+                    <select asp-for="InsuranceAgentInput.AgentType" asp-items="@Model.InsuranceAgentInput.AgentTypeList" class="form-select" aria-required="true">
+                        <option disabled selected>Выберите тип агента</option>
+                    </select>
+                    <span asp-validation-for="InsuranceAgentInput.AgentType" class="text-danger"></span>
+                </div>
+                <div id="contracts" class="form-floating mb-3">
+                    <select asp-for="InsuranceAgentInput.Contract" asp-items="@Model.InsuranceAgentInput.ContractList" class="form-select" aria-required="true">
+                        <option disabled selected>Выберите контракт</option>
+                    </select>
+                    <span asp-validation-for="InsuranceAgentInput.Contract" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3" >
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating mb-3">
+                <select id="roleSelect" asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" aria-required="true" onchange="showFields()">
+                    <option disabled selected>Выберите роль</option>
+                </select>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showFields() {
+        var select = document.getElementById("roleSelect");
+        var client = document.getElementById("Client")
+        var insuranceAgent = document.getElementById("InsuranceAgent");
+        
+        if (select.value === "Страховой агент") {
+            client.classList.add("hidden");
+            insuranceAgent.classList.remove("hidden");
+        } 
+        else if (select.value === "Клиент") {
+            client.classList.remove("hidden");
+            insuranceAgent.classList.add("hidden");
+        }
+    }
+    function passportValidateInput() {
+        const inputField = document.getElementById('passportNumberInput');
+        let inputValue = inputField.value;
+        console.log(inputValue)
+        for(let i = 0; i < inputValue.length; i++){
+            if (i < 2 && !/^[A-Z]$/.test(inputValue[i])) {
+                inputField.value = inputValue.slice(0, inputValue.length-1)
+                break
+            }
+            if (i > 1 && i < 9 && !/^\d$/.test(inputValue[i])) {
+                inputField.value = inputValue.slice(0, inputValue.length - 1)
+                break
+            }
+        }
+
+    }
+    let inputPhone = document.getElementById("inputPhone");
+    inputPhone.oninput = () => phoneMask(inputPhone)
+    function phoneMask(inputEl) {
+        let patStringArr = "+375 __ ___-__-__".split('');
+        let arrPush = [5, 6, 8, 9, 10, 12, 13, 15, 16]
+        let val = inputEl.value;
+        let arr = val.replace(/\D+/g, "").split('').splice(3);
+        let n;
+        let ni;
+        arr.forEach((s, i) => {
+            n = arrPush[i];
+            patStringArr[n] = s
+            ni = i
+        });
+        inputEl.value = patStringArr.join('');
+        n ? inputEl.setSelectionRange(n + 1, n + 1) : inputEl.setSelectionRange(17, 17)
+    }
+</script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

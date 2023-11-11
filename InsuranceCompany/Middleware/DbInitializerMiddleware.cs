@@ -1,5 +1,7 @@
 ﻿using InsuranceCompany.Data;
 using InsuranceCompany.Data.DbInitializer;
+using InsuranceCompany.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace InsuranceCompany.Middleware {
     public class DbInitializerMiddleware {
@@ -9,11 +11,8 @@ namespace InsuranceCompany.Middleware {
             _next = next;
         }
 
-        public Task Invoke(HttpContext httpContext, InsuranceCompanyContext db) {
-            if (!(httpContext.Session.Keys.Contains("database"))) {
-                InsuranceCompanyInitializer.Initialize(db);
-                httpContext.Session.SetString("database", "initial");
-            }
+        public Task Invoke(HttpContext httpContext, InsuranceCompanyContext db, InsuranceCompanyIdentityContext identityDb, UserManager<ApplicationUser> userManager) {
+            InsuranceCompanyInitializer.Initialize(db, identityDb, userManager);
             return _next.Invoke(httpContext);
         }
     }

@@ -1,5 +1,10 @@
 ﻿namespace InsuranceCompany.Data.DbInitializer {
     public static class InitializeData {
+        public static List<string> IdentityRoleNames = new() {
+            "Клиент",
+            "Страховой агент"
+        };
+
         public static List<string> AgentTypes = new() {
             "Штатный работник",
             "Совместитель"
