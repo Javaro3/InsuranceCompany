@@ -98,7 +98,7 @@ namespace InsuranceCompany.Data.DbInitializer {
 
         private static void InitializeInsuranceTypes(InsuranceCompanyContext db) {
             foreach (var name in InitializeData.InsuranceTypeNames) {
-                db.Add(new InsuranceType() { Name = name });
+                db.Add(new InsuranceType() { Name = name, Description = $"Описание - {name}" });
             }
         }
 
@@ -161,7 +161,7 @@ namespace InsuranceCompany.Data.DbInitializer {
 
         private static void InitializeSupportingDocuments(InsuranceCompanyContext db) {
             foreach (var name in InitializeData.SupportingDocumentNames) {
-                db.Add(new SupportingDocument() { Name = name });
+                db.Add(new SupportingDocument() { Name = name, Description = $"Описание - {name}" });
             }
             db.SaveChanges();
         }
