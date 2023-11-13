@@ -1,6 +1,8 @@
 using InsuranceCompany.Data;
+using InsuranceCompany.Data.Utilities;
 using InsuranceCompany.Middleware;
 using InsuranceCompany.Models;
+using InsuranceCompany.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +20,11 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<InsuranceCompanyIdentityContext>();
 
+
+builder.Services.AddTransient<InsuranceCompanyCookieManager>();
+builder.Services.AddTransient<InsuranceCompanyCache>();
+builder.Services.AddTransient<InsuranceCompanyFilter>();
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 

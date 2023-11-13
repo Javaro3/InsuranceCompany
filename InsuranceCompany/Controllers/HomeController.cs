@@ -1,18 +1,17 @@
-﻿using InsuranceCompany.Data;
+﻿using InsuranceCompany.Data.Utilities;
 using InsuranceCompany.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace InsuranceCompany.Controllers {
     public class HomeController : Controller {
-        private readonly InsuranceCompanyContext _db;
+        private readonly InsuranceCompanyCache _cache;
 
-        public HomeController(InsuranceCompanyContext db) {
-            _db = db;
+        public HomeController(InsuranceCompanyCache cache) {
+            _cache = cache;
         }
 
         public IActionResult Index() {
-            return View(_db.InsuranceTypes);
+            return View(_cache.GetEntity<InsuranceType>());
         }
 
         public IActionResult Privacy() {

@@ -1,0 +1,89 @@
+﻿@using InsuranceCompany.ViewModels;
+@model PageModel<InsuranceType>;
+
+@{
+    ViewData["Title"] = "Типы страховок";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var InsuranceTypeFilter = ViewData["InsuranceTypeFilter"] as InsuranceTypeFilter;
+}
+<style>
+    .hidden {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+    }
+</style>
+<div class="row">
+    <div id="filterMenu" class="card col-sm-3 hidden">
+        <div class="card-header">
+            <h5>Фильтры</h5>
+        </div>
+        <form asp-action="Index">
+            <div class="form-group">
+                <label class="control-label">Название</label>
+                <input class="form-control" name="Name" value="@InsuranceTypeFilter.Name" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Описание</label>
+                <input class="form-control" name="Description" value="@InsuranceTypeFilter.Description" />
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-block">Применить</button>
+            </div>
+        </form>            
+    </div>
+    <div class="col">
+        <h1 class="display-4 text-primary text-center">Типы страховок</h1>
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-primary btn-block" asp-action="Create">Добавить тип страхования</a>
+            <button id="toggleFilterMenu" class="btn btn-primary btn-block">Фильтры</button>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Название
+                    </th>
+                    <th>
+                        Описание
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var insuranceType in Model.Entities) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => insuranceType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => insuranceType.Description)
+                        </td>
+                        <td>
+                            <a class="text-dark" asp-action="Edit" asp-route-id="@insuranceType.Id">Редактировать</a> |
+                            <a class="text-dark" asp-action="Delete" asp-route-id="@insuranceType.Id">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (int i = 1; i <= Model.TotalPages; i++) {
+                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = Model.PageSize })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('toggleFilterMenu').addEventListener('click', function () {
+        var filterMenu = document.getElementById('filterMenu');
+        filterMenu.classList.toggle('hidden');
+    });
+</script>

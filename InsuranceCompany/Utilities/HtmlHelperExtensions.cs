@@ -44,28 +44,13 @@ namespace InsuranceCompany.Utilities {
         }
 
         public static IHtmlContent GenerateMenuForRole(this IHtmlHelper htmlHelper, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager) {
-            var result = new HtmlContentBuilder();
-
             if (signInManager.IsSignedIn(htmlHelper.ViewContext.HttpContext.User)) {
                 var user = userManager.GetUserAsync(htmlHelper.ViewContext.HttpContext.User).Result;
-                var roles = userManager.GetRolesAsync(user).Result;
+                var role = userManager.GetRolesAsync(user).Result[0];
 
-                if (roles.Count > 0) {
-                    var role = roles[0];
-
-                    if (role == "Клиент") {
-                        result.AppendHtml(GenerateClientMenu());
-                    }
-                    else {
-                        result.AppendHtml(GenerateAdminMenu());
-                    }
-                }
+                return role == "Клиент" ? GenerateClientMenu() : GenerateInsuranceAgentMenu();
             }
-            else {
-                result.AppendHtml(GenerateDefaultMenu());
-            }
-
-            return result;
+            return GenerateDefaultMenu();
         }
 
         private static IHtmlContent GenerateClientMenu() {
@@ -86,11 +71,11 @@ namespace InsuranceCompany.Utilities {
             return result;
         }
 
-        private static IHtmlContent GenerateAdminMenu() {
+        private static IHtmlContent GenerateInsuranceAgentMenu() {
             var result = new HtmlContentBuilder();
 
             result.AppendHtml("<li class=\"nav-item\">");
-            result.AppendHtml("<a class=\"nav-link text-dark\" asp-area=\"\" asp-controller=\"Home\" asp-action=\"Index\">Типы страховок</a>");
+            result.AppendHtml("<a class=\"nav-link text-dark\" asp-area=\"\" asp-controller=\"InsuranceTypes\" asp-action=\"Index\">Типы страховок</a>");
             result.AppendHtml("</li>");
 
             result.AppendHtml("<li class=\"nav-item\">");
