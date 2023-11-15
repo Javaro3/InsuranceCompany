@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace InsuranceCompany.Areas.Identity.Models {
-    public class InputModel {
+    public class RegisterInputModel {
         [Required(ErrorMessage = "Необходимо ввести имя в поле.")]
         [Display(Name = "Имя")]
         public string Name { get; set; }

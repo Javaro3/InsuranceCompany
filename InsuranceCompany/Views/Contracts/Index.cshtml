@@ -1,0 +1,121 @@
+﻿@using InsuranceCompany.ViewModels;
+@model PageModel<Contract, ContractFilterModel>;
+
+@{
+    ViewData["Title"] = "Контракты";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .hidden {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+    }
+</style>
+<div class="row">
+    <div id="filterMenu" class="card col-sm-3 hidden">
+        <div class="card-header">
+            <h5>Фильтры</h5>
+        </div>
+        <form asp-action="Index">
+            <div class="form-group mb-3">
+                <label class="control-label">Обязанности</label>
+                <input class="form-control" name="Responsibilities" value="@Model.FilterModel.Responsibilities" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Начало контракта</label>
+                <input asp-for="@Model.FilterModel.StartDeadLine" type="date" class="form-control" name="StartDeadLine" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Конец контракта</label>
+                <input asp-for="@Model.FilterModel.EndDeadLine" type="date" class="form-control" name="EndDeadLine" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Зарпалата (от и до)</label>
+                <input type="number" class="form-control" name="MinSalary" value="@Model.FilterModel.MinSalary" />
+                <input type="number" class="form-control" name="MaxSalary" value="@Model.FilterModel.MaxSalary" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Процент от сделки (от и до)</label>
+                <input type="number" step="any" class="form-control" name="MinTransactionPercent" value="@Model.FilterModel.MinTransactionPercent" />
+                <input type="number" step="any" class="form-control" name="MaxTransactionPercent" value="@Model.FilterModel.MaxTransactionPercent" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка обязанностей</label>
+                <select name="SortTypeResponsobilities" asp-for="@Model.FilterModel.SortTypeResponsobilities" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка зарплаты</label>
+                <select name="SortTypeSalary" asp-for="@Model.FilterModel.SortTypeSalary" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка процента от сделки</label>
+                <select name="SortTypeTransactionPercent" asp-for="@Model.FilterModel.SortTypeTransactionPercent" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="card-footer mb-3">
+                <button type="submit" class="btn btn-primary btn-block">Применить</button>
+            </div>
+        </form>
+    </div>
+    <div class="col">
+        <h1 class="display-4 text-primary text-center">Контракты</h1>
+        <div class="d-flex justify-content-between mb-2">
+            <a class="btn btn-primary btn-block" asp-action="Create">Добавить контракт</a>
+            <button id="toggleFilterMenu" class="btn btn-primary btn-block">Фильтры</button>
+        </div>
+        <div class="row">
+            @foreach (var contract in base.Model.Entities) {
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <h5 class="card-title text-center text-primary">@contract.Responsibilities</h5>
+                            <p class="card-text"><strong>Начало контракта:</strong> @contract.StartDeadline.ToShortDateString()</p>
+                            <p class="card-text"><strong>Конец контракта:</strong> @contract.EndDeadline.ToShortDateString()</p>
+                            <p class="card-text"><strong>Зарплата:</strong> @contract.Salary $</p>
+                            <p class="card-text"><strong>Процент от сделки:</strong> @contract.TransactionPercent</p>
+                            <a class="text-dark" asp-action="Edit" asp-route-id="@contract.Id">Редактировать</a> |
+                            <a class="text-dark" asp-action="Delete" asp-route-id="@contract.Id">Удалить</a> |
+                            <a class="text-dark" asp-action="Details" asp-route-id="@contract.Id">Детали</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (int i = 1; i <= base.Model.TotalPages; i++) {
+                        <li class="page-item @(i == base.Model.PageNumber ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = base.Model.PageSize })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('toggleFilterMenu').addEventListener('click', function () {
+        var filterMenu = document.getElementById('filterMenu');
+        filterMenu.classList.toggle('hidden');
+    });
+</script>

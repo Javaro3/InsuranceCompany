@@ -1,0 +1,51 @@
+﻿@model InsuranceCompany.Models.Policy
+
+@{
+    ViewData["Title"] = "Редактировать полисы";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Редактировать</h1>
+<div class="row d-flex justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="PolicyNumber" class="control-label">Номер полиса</label>
+                <input asp-for="PolicyNumber" class="form-control" />
+                <span asp-validation-for="PolicyNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PolicyPayment" class="control-label">Страховая выплата</label>
+                <input asp-for="PolicyPayment" class="form-control" />
+                <span asp-validation-for="PolicyPayment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ApplicationDate" class="control-label">Начало действия полиса</label>
+                <input asp-for="ApplicationDate" class="form-control" />
+                <span asp-validation-for="ApplicationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PolicyTerm" class="control-label">Продолжительность действия полиса (в месяцах)</label>
+                <input asp-for="PolicyTerm" class="form-control" />
+                <span asp-validation-for="PolicyTerm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InsuranceAgentId" class="control-label">Страховой агент</label>
+                <select asp-for="InsuranceAgentId" class="form-control" asp-items="ViewBag.InsuranceAgentId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="InsuranceTypeId" class="control-label">Тип страховки</label>
+                <select asp-for="InsuranceTypeId" class="form-control" asp-items="ViewBag.InsuranceTypeId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="w-100 btn btn-lg btn-primary mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

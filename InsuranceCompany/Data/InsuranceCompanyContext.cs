@@ -17,5 +17,4 @@ public partial class InsuranceCompanyContext : DbContext {
     public virtual DbSet<Policy> Policies { get; set; }
     public virtual DbSet<SupportingDocument> SupportingDocuments { get; set; }
     public virtual DbSet<PolicyClient> PolicyClients { get; set; }
-    public IEnumerable<object> PolicyInsuranceCases { get; internal set; }
 }

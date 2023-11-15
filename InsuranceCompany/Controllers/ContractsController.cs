@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace InsuranceCompany.Controllers {
-    public class InsuranceTypesController : Controller {
+    public class ContractsController : Controller {
         private readonly InsuranceCompanyContext _context;
         private readonly InsuranceCompanyCache _cache;
         private readonly InsuranceCompanyCookieManager _cookieManager;
         private readonly InsuranceCompanyFilter _filter;
-        private const int PAGE_SIZE = 10;
+        private const int PAGE_SIZE = 9;
 
-        public InsuranceTypesController(
+        public ContractsController(
             InsuranceCompanyContext context,
             InsuranceCompanyCache cache,
             InsuranceCompanyCookieManager cookieManager,
@@ -26,19 +26,33 @@ namespace InsuranceCompany.Controllers {
         }
 
         public async Task<IActionResult> Index(int page, int pageSize = PAGE_SIZE) {
-            var insuranceTypeFilter = _cookieManager.GetCookie<InsuranceTypeFilterModel>(HttpContext.Request.Cookies);
-            var insuranceTypes = _filter.Filter(insuranceTypeFilter);
-            var viewModel = new PageModel<InsuranceType, InsuranceTypeFilterModel>(page, pageSize, insuranceTypes, insuranceTypeFilter);
+            var contractFilter = _cookieManager.GetCookie<ContractFilterModel>(HttpContext.Request.Cookies);
+            var contracts = _filter.Filter(contractFilter);
+            var viewModel = new PageModel<Contract, ContractFilterModel>(page, pageSize, contracts, contractFilter);
 
             return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(InsuranceTypeFilterModel insuranceTypeFilter, int page, int pageSize = PAGE_SIZE) {
-            _cookieManager.SetCookie(insuranceTypeFilter, HttpContext.Response.Cookies);
-            var insuranceTypes = _filter.Filter(insuranceTypeFilter);
-            var viewModel = new PageModel<InsuranceType, InsuranceTypeFilterModel>(page, pageSize, insuranceTypes, insuranceTypeFilter);
+        public async Task<IActionResult> Index(ContractFilterModel contractFilter, int page, int pageSize = PAGE_SIZE) {
+            _cookieManager.SetCookie(contractFilter, HttpContext.Response.Cookies);
+            var contracts = _filter.Filter(contractFilter);
+            var viewModel = new PageModel<Contract, ContractFilterModel>(page, pageSize, contracts, contractFilter);
 
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> Details(int? id) {
+            if (id == null) {
+                return NotFound();
+            }
+
+            var contract = _cache.GetEntity<Contract>().FirstOrDefault(m => m.Id == id);
+            if (contract == null) {
+                return NotFound();
+            }
+            var insuranceAgents = _cache.GetEntity<InsuranceAgent>().Where(e => e.ContractId == id);
+            var viewModel = (contract, insuranceAgents);
             return View(viewModel);
         }
 
@@ -48,14 +62,14 @@ namespace InsuranceCompany.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(InsuranceType insuranceType) {
+        public async Task<IActionResult> Create(Contract contract) {
             if (ModelState.IsValid) {
-                _context.Add(insuranceType);
+                _context.Add(contract);
                 await _context.SaveChangesAsync();
-                _cache.SetEntity<InsuranceType>();
+                _cache.SetEntity<Contract>();
                 return RedirectToAction(nameof(Index));
             }
-            return View(insuranceType);
+            return View(contract);
         }
 
         public async Task<IActionResult> Edit(int? id) {
@@ -63,32 +77,32 @@ namespace InsuranceCompany.Controllers {
                 return NotFound();
             }
 
-            var insuranceType = _cache.GetEntity<InsuranceType>().FirstOrDefault(e => e.Id == id);
-            if (insuranceType == null) {
+            var contract = _cache.GetEntity<Contract>().FirstOrDefault(e => e.Id == id);
+            if (contract == null) {
                 return NotFound();
             }
-            return View(insuranceType);
+            return View(contract);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, InsuranceType insuranceType) {
-            if (id != insuranceType.Id) {
+        public async Task<IActionResult> Edit(int id, Contract contract) {
+            if (id != contract.Id) {
                 return NotFound();
             }
 
             if (ModelState.IsValid) {
                 try {
-                    _context.Update(insuranceType);
+                    _context.Update(contract);
                     await _context.SaveChangesAsync();
-                    _cache.SetEntity<InsuranceType>();
+                    _cache.SetEntity<Contract>();
                 }
                 catch (DbUpdateConcurrencyException) {
                     return NotFound();
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(insuranceType);
+            return View(contract);
         }
 
         public async Task<IActionResult> Delete(int? id) {
@@ -96,24 +110,24 @@ namespace InsuranceCompany.Controllers {
                 return NotFound();
             }
 
-            var insuranceType = _cache.GetEntity<InsuranceType>().FirstOrDefault(e => e.Id == id);
-            if (insuranceType == null) {
+            var contract = _cache.GetEntity<Contract>().FirstOrDefault(e => e.Id == id);
+            if (contract == null) {
                 return NotFound();
             }
 
-            return View(insuranceType);
+            return View(contract);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id) {
-            var insuranceType = _cache.GetEntity<InsuranceType>().FirstOrDefault(e => e.Id == id);
-            if (insuranceType != null) {
-                _context.InsuranceTypes.Remove(insuranceType);
+            var contract = _cache.GetEntity<Contract>().FirstOrDefault(e => e.Id == id);
+            if (contract != null) {
+                _context.Contracts.Remove(contract);
             }
 
             await _context.SaveChangesAsync();
-            _cache.SetEntity<InsuranceType>();
+            _cache.SetEntity<Contract>();
             return RedirectToAction(nameof(Index));
         }
     }

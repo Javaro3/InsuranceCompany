@@ -5,6 +5,44 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title text-primary text-center">Информация о полисе</h5>
+        </div>
+        <div class="card-body row d-flex align-items-center text-center">
+            <div class="col">
+                <h5 class="card-text text-primary"><strong>Название</strong></h5>
+                <h6 class="card-text">@Model.Name</h6>
+                <h5 class="card-text text-primary"><strong>Описание</strong></h5>
+                <h6 class="card-text">@Model.Description</h6>
+            </div>
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Удалить" class="btn btn-danger" /> |
+                <a asp-controller="InsuranceTypes" asp-action="Index" class="btn btn-primary">Отменить</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*
+
 <h1>Удаление</h1>
 <div>
     <h4>Тип страховки</h4>
@@ -30,3 +68,4 @@
         <button asp-controller="InsuranceTypes" asp-action="Index" class="btn btn-primary">Отменить</button>
     </form>
 </div>
+*@

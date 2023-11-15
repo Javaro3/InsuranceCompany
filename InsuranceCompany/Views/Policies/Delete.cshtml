@@ -1,0 +1,124 @@
+﻿@model InsuranceCompany.Models.Policy
+
+@{
+    ViewData["Title"] = "Удаление полисов";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title text-primary text-center">Информация о полисе</h5>
+        </div>
+        <div class="card-body row d-flex align-items-center text-center">
+            <div class="col">
+                <h5 class="card-text text-primary"><strong>Номер полиса</strong></h5>
+                <h6 class="card-text">@Model.PolicyNumber</h6>
+                <h5 class="card-text text-primary"><strong>Страховая выплата</strong></h5>
+                <h6 class="card-text">@Model.PolicyPayment $</h6>
+                <h5 class="card-text text-primary"><strong>Начало полиса</strong></h5>
+                <h6 class="card-text">@Model.ApplicationDate.ToShortDateString()</h6>
+                <h5 class="card-text text-primary"><strong>Продолжительность</strong></h5>
+                <h6 class="card-text">@Model.PolicyTerm мес.</h6>
+            </div>
+            <div class="col">
+                <h5 class="card-text text-primary text-center"><strong>Страховой агент</strong></h5>
+                    <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Фамилия
+                                    </th>
+                                    <th>
+                                        Имя
+                                    </th>
+                                    <th>
+                                        Отчество
+                                    </th>
+                                    <th>
+                                        Тип агента
+                                    </th>
+                                    <th>
+                                        Обязанности
+                                    </th>
+                                    <th>
+                                        Начало контракта
+                                    </th>
+                                    <th>
+                                        Конец контракта
+                                    </th>
+                                    <th>
+                                        Зарплата
+                                    </th>
+                                    <th>
+                                        Процент от сделки
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Model.InsuranceAgent.Surname
+                                    </td>
+                                    <td>
+                                        @Model.InsuranceAgent.Name
+                                    </td>
+                                    <td>
+                                        @Model.InsuranceAgent.MiddleName
+                                    </td>
+                                    <td>
+                                        @Model.InsuranceAgent.AgentType.Type
+                                    </td>
+                                    <td>
+                                        @Model.InsuranceAgent.Contract.Responsibilities
+                                    </td>
+                                    <td>
+                                        @Model.InsuranceAgent.Contract.StartDeadline.ToShortDateString()
+                                    </td>
+                                    <td>
+                                        @Model.InsuranceAgent.Contract.EndDeadline.ToShortDateString()
+                                    </td>
+                                    <td>
+                                        @Model.InsuranceAgent.Contract.Salary $
+                                    </td>
+                                    <td>
+                                        @Model.InsuranceAgent.Contract.TransactionPercent
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                <h5 class="card-text text-primary text-center"><strong>Тип страховки</strong></h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Название
+                            </th>
+                            <th>
+                                Описание
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Model.InsuranceType.Name
+                            </td>
+                            <td>
+                                @Model.InsuranceType.Description
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Удалить" class="btn btn-danger" /> |
+                <a asp-controller="Policies" asp-action="Index" class="btn btn-primary">Отменить</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -15,7 +15,7 @@ namespace InsuranceCompany.Areas.Identity.Pages.Account {
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly InsuranceCompanyContext _db;
-
+        
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
@@ -30,7 +30,7 @@ namespace InsuranceCompany.Areas.Identity.Pages.Account {
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public RegisterInputModel Input { get; set; }
         [BindProperty]
         public ClientInputModel ClientInput { get; set; }
         [BindProperty]
@@ -42,7 +42,7 @@ namespace InsuranceCompany.Areas.Identity.Pages.Account {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            Input = new InputModel() { RoleList = GetRoleList() };
+            Input = new RegisterInputModel() { RoleList = GetRoleList() };
             InsuranceAgentInput = new InsuranceAgentInputModel() {
                 AgentTypeList = GetAgentTypeList(),
                 ContractList = GetContractList()
@@ -56,8 +56,7 @@ namespace InsuranceCompany.Areas.Identity.Pages.Account {
 
             if ((Input.Role == "Клиент" && ModelState.ErrorCount <= 2) || (Input.Role == "Страховой агент" && ModelState.ErrorCount <= 3)) {
                 var user = CreateUser();
-                var role = Input.Role == "Клиент" ? "Client" : "InsuranceAgent";
-                var userName = DbConverter.GetUserNameTranslator($"{Input.Name.Trim()}_{Input.Surname.Trim()}_{Input.MiddleName.Trim()}_{role}");
+                var userName = DbConverter.GetUserNameTranslator($"{Input.Name.Trim()}_{Input.Surname.Trim()}_{Input.MiddleName.Trim()}");
 
                 await _userStore.SetUserNameAsync(user, userName, CancellationToken.None);
 

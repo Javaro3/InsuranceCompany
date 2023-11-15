@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace InsuranceCompany.Data.DbInitializer {
     public static class InsuranceCompanyInitializer {
         private static Random rand = new();
-
+        
         public static void Initialize(InsuranceCompanyContext db, InsuranceCompanyIdentityContext identityDb, UserManager<ApplicationUser> userManager) {
             if (!db.Database.CanConnect()) {
                 db.Database.Migrate();
@@ -113,11 +113,11 @@ namespace InsuranceCompany.Data.DbInitializer {
                 string passportNumber = rand.NextPassportNumber();
                 var passportIssueDate = rand.NextDate(2000, 2023);
                 string password = $"Client{i}!";
-                var userName = DbConverter.GetUserNameTranslator($"{name}_{surname}_{middleName}_Client");
+                var userName = DbConverter.GetUserNameTranslator($"{name}_{surname}_{middleName}");
 
                 var applicationUser = new ApplicationUser() {
                     UserName = userName,
-                    NormalizedEmail = userName,
+                    NormalizedUserName = userName,
                     Name = name,
                     Surname = surname,
                     MiddleName = middleName
@@ -200,11 +200,11 @@ namespace InsuranceCompany.Data.DbInitializer {
                 int agentTypeId = rand.Next(1, InitializeData.AgentTypes.Count + 1);
                 int contractId = rand.Next(1, 101);
                 string password = $"InsuranceAgent{i}!";
-                var userName = DbConverter.GetUserNameTranslator($"{name}_{surname}_{middleName}_InsuranceAgent");
+                var userName = DbConverter.GetUserNameTranslator($"{name}_{surname}_{middleName}");
 
                 var applicationUser = new ApplicationUser() {
                     UserName = userName,
-                    NormalizedEmail = userName,
+                    NormalizedUserName = userName,
                     Name = name,
                     Surname = surname,
                     MiddleName = middleName

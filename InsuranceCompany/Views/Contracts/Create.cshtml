@@ -1,0 +1,47 @@
+﻿@model InsuranceCompany.Models.Contract
+
+@{
+    ViewData["Title"] = "Добавить контракт";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h1 class="text-center">Добавить контракт</h1>
+<div class="row d-flex justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Обязанности</label>
+                <input asp-for="Responsibilities" class="form-control" />
+                <span asp-validation-for="Responsibilities" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Начало контракта</label>
+                <input asp-for="StartDeadline" class="form-control" />
+                <span asp-validation-for="StartDeadline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Конец контракта</label>
+                <input asp-for="EndDeadline" class="form-control" />
+                <span asp-validation-for="EndDeadline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Зарплата</label>
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Процент от сделки</label>
+                <input asp-for="TransactionPercent" class="form-control" />
+                <span asp-validation-for="TransactionPercent" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Добавить" class="w-100 btn btn-lg btn-primary mt-2" />
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
