@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace InsuranceCompany.Controllers {
-    [Authorize(Roles = "Страховой агент")]
+    [Authorize(Roles = "Страховой агент, Клиент")]
     public class PoliciesController : Controller {
         private readonly InsuranceCompanyContext _context;
         private readonly InsuranceCompanyCache _cache;

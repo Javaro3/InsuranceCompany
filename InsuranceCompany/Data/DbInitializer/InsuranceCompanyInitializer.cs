@@ -125,7 +125,7 @@ namespace InsuranceCompany.Data.DbInitializer {
 
                 var result = userManager.CreateAsync(applicationUser, password).GetAwaiter().GetResult();
                 if (result.Succeeded) {
-                    userManager.AddToRoleAsync(applicationUser, "Страховой агент").GetAwaiter().GetResult();
+                    userManager.AddToRoleAsync(applicationUser, "Клиент").GetAwaiter().GetResult();
                     db.Add(new Client() {
                         Name = name,
                         Surname = surname,

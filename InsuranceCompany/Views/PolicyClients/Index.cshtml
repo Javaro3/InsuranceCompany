@@ -1,12 +1,9 @@
 ﻿@using InsuranceCompany.ViewModels;
-@using Microsoft.AspNetCore.Identity
-@inject UserManager<ApplicationUser> UserManager
-@model PageModelWithAggregateValue<Policy, PolicyFilterModel, decimal>;
+@model PageModel<Policy, PolicyFilterModel>;
 
 @{
     ViewData["Title"] = "Полисы";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var role = @UserManager.GetRolesAsync(@UserManager.GetUserAsync(User).Result).Result[0];
 }
 <style>
     .hidden {
@@ -25,7 +22,7 @@
                 <label class="form-label">Номер полиса</label>
                 <input asp-for="@Model.FilterModel.PolicyNumber" name="PolicyNumber" class="form-control" />
             </div>
-            
+
             <div class="form-group mb-3">
                 <label class="form-label">Начало действия полиса</label>
                 <input asp-for="@Model.FilterModel.ApplicationDateStart" type="date" name="ApplicationDateStart" class="form-control" />
@@ -35,7 +32,7 @@
                 <label class="form-label">Конец действия полиса </label>
                 <input asp-for="@Model.FilterModel.ApplicationDateEnd" type="date" name="ApplicationDateEnd" class="form-control" />
             </div>
-            
+
             <div class="form-group mb-3">
                 Страховая выплата (от и до)
                 <input class="form-control" asp-for="@Model.FilterModel.MinPolicyPayment" type="number" name="MinPolicyPayment" value="@Model.FilterModel.MinPolicyPayment" class="form-control" />
@@ -58,7 +55,7 @@
 
             <div class="form-group mb-3">
                 <label class="form-label">Только действующие полисы </label>
-                <input asp-for="@Model.FilterModel.PolicyIsActing" type="checkbox" name="PolicyIsActing" class="form-check-input"/>
+                <input asp-for="@Model.FilterModel.PolicyIsActing" type="checkbox" name="PolicyIsActing" class="form-check-input" />
             </div>
 
             <div class="form-group mb-3">
@@ -96,12 +93,9 @@
     <div class="col">
         <h1 class="display-4 text-primary text-center">Полисы</h1>
         <div class="d-flex justify-content-between mb-2">
-            @if(role == "Страховой агент") {
-                <a class="btn btn-primary btn-block " asp-action="Create">Добавить полис</a>
-            }
+            <a class="btn btn-primary btn-block " asp-controller="Policies" asp-action="Index">Оформить полис</a>
             <button id="toggleFilterMenu" class="btn btn-primary btn-block">Фильтры</button>
         </div>
-        <h5 class="text-primary">Сумма страховых выплат: @Model.AggregateValue $</h5>
         <div class="row">
             @foreach (var policy in Model.Entities) {
                 <div class="col-md-4">
@@ -113,17 +107,7 @@
                             <p class="card-text"><strong>Тип страхования:</strong> @policy.InsuranceType.Name</p>
                             <p class="card-text"><strong>Срок действия полиса:</strong> @policy.PolicyTerm мес.</p>
                             <p class="card-text"><strong>Страховая выплата:</strong> @policy.PolicyPayment $</p>
-                            @if(role == "Страховой агент") {
-                                <a class="text-dark" asp-action="Edit" asp-route-id="@policy.Id">Редактировать</a> <p>|</p>
-                                <a class="text-dark" asp-action="Delete" asp-route-id="@policy.Id">Удалить</a> <p>|</p>
-                                <a class="text-dark" asp-action="Details" asp-route-id="@policy.Id">Детали</a>
-                            }
-                            else{
-                                <form asp-controller="PolicyClients" asp-action="Create">
-                                    <input type="hidden" asp-for="@policy.Id" name="id" />
-                                    <input type="submit" value="Оформить полис" class="btn btn-primary" />
-                                </form>
-                            }
+                            <a class="text-dark" asp-controller="Policies" asp-action="Details" asp-route-id="@policy.Id">Детали</a>
                         </div>
                     </div>
                 </div>

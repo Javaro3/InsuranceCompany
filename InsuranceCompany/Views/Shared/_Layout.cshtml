@@ -27,7 +27,7 @@
                             var role = @UserManager.GetRolesAsync(@UserManager.GetUserAsync(User).Result).Result[0];
                             if (role == "Клиент") {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="ClientPolicies" asp-action="Index">Полисы</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="PolicyClients" asp-action="Index">Полисы</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="ClientInsuranceCases" asp-action="Index">Страховые случаи</a>

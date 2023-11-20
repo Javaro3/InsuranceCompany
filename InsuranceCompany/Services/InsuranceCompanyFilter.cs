@@ -128,5 +128,18 @@ namespace InsuranceCompany.Services {
             }
             return result;
         }
+
+        public IEnumerable<Policy> Filter(PolicyFilterModel filter, int clientId) {
+            var policiesId = Filter(filter).Select(e => e.Id);
+            var result = _cache.GetEntity<PolicyClient>();
+            if (filter != null) {
+                return result
+                    .Where(e => e.ClientId == clientId)
+                    .Where(e => policiesId.Contains(e.PolicyId))
+                    .Select(e => e.Policy)
+                    .Sort(filter);
+            }
+            return result.Select(e => e.Policy);
+        }
     }
 }
