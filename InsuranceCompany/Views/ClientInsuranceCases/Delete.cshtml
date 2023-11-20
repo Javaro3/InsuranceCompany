@@ -1,0 +1,30 @@
+﻿@model InsuranceCompany.Models.InsuranceCase
+
+@{
+    ViewData["Title"] = "Удаление страховых случаев";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title text-primary text-center">Информация о страховом случае</h5>
+        </div>
+        <div class="card-body row d-flex align-items-center text-center">
+            <div class="col">
+                <h5 class="card-title text-center text-primary">@Model.Date.ToShortDateString()</h5>
+                <p class="card-text"><strong>Страховая выплата:</strong> @Model.InsurancePayment</p>
+                <p class="card-text"><strong>Описание:</strong> @Model.Description</p>
+                <p class="card-text"><strong>Подтверждающий документ:</strong> @Model.SupportingDocument.Name</p>
+                <p class="card-text"><strong>Описание подтверждающего документа:</strong> @Model.SupportingDocument.Description
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mb-3">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Удалить" class="btn btn-danger" /> |
+                <button asp-controller="ClientInsuranceCases" asp-action="Index" class="btn btn-primary">Отменить</button>
+            </form>
+        </div>
+    </div>
+</div>

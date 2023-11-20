@@ -113,7 +113,7 @@ namespace InsuranceCompany.Data.DbInitializer {
                 string passportNumber = rand.NextPassportNumber();
                 var passportIssueDate = rand.NextDate(2000, 2023);
                 string password = $"Client{i}!";
-                var userName = DbConverter.GetUserNameTranslator($"{name}_{surname}_{middleName}");
+                var userName = DbConverter.GetTranslator($"{name}_{surname}_{middleName}");
 
                 var applicationUser = new ApplicationUser() {
                     UserName = userName,
@@ -148,12 +148,14 @@ namespace InsuranceCompany.Data.DbInitializer {
                 int supportingDocumentId = rand.Next(1, InitializeData.SupportingDocumentNames.Count + 1);
                 decimal insurancePayment = (decimal)(100 * rand.NextDouble());
                 int clientId = rand.Next(1, 51);
+                string description = $"Описание - {date.ToShortDateString()}";
 
                 db.Add(new InsuranceCase() {
                     Date = date,
                     SupportingDocumentId = supportingDocumentId,
                     InsurancePayment = insurancePayment,
-                    ClientId = clientId
+                    ClientId = clientId,
+                    Description = description
                 });
             }
             db.SaveChanges();
@@ -200,7 +202,7 @@ namespace InsuranceCompany.Data.DbInitializer {
                 int agentTypeId = rand.Next(1, InitializeData.AgentTypes.Count + 1);
                 int contractId = rand.Next(1, 101);
                 string password = $"InsuranceAgent{i}!";
-                var userName = DbConverter.GetUserNameTranslator($"{name}_{surname}_{middleName}");
+                var userName = DbConverter.GetTranslator($"{name}_{surname}_{middleName}");
 
                 var applicationUser = new ApplicationUser() {
                     UserName = userName,

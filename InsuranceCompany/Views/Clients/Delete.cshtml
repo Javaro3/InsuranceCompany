@@ -1,0 +1,91 @@
+﻿@model InsuranceCompany.Models.Client
+
+@{
+    ViewData["Title"] = "Удаление клиентов";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title text-primary text-center">Информация о клиенте</h5>
+        </div>
+        <div class="card-body row d-flex align-items-center text-center">
+            <div class="col">
+                <h5 class="card-text text-primary"><strong>ФИО</strong></h5>
+                <h6 class="card-text">@Model.Surname @Model.Name @Model.MiddleName</h6>
+                <h5 class="card-text text-primary"><strong>Дата рождения</strong></h5>
+                <h6 class="card-text">@Model.Birthdate.ToShortDateString()</h6>
+                <h5 class="card-text text-primary"><strong>Адрес</strong></h5>
+                <h6 class="card-text">@Model.Address</h6>
+                <h5 class="card-text text-primary"><strong>Номер телефона</strong></h5>
+                <h6 class="card-text">@Model.MobilePhone</h6>
+                <h5 class="card-text text-primary"><strong>Номер пасспорта</strong></h5>
+                <h6 class="card-text">@Model.PassportNumber</h6>
+                <h5 class="card-text text-primary"><strong>Дата выдачи пасспорта</strong></h5>
+                <h6 class="card-text">@Model.PassportIssueDate</h6>
+            </div>
+            <div class="col">
+                <h5 class="card-text text-primary text-center"><strong>Страховые случаи</strong></h5>
+                @if(Model.InsuranceCases.Count() > 0) {
+                    <div class="overflow-auto" style="height: 200px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Дата
+                                </th>
+                                <th>
+                                    Описание
+                                </th>
+                                <th>
+                                    Страховая выплота
+                                </th>
+                                <th>
+                                    Название подтверждающего документа
+                                </th>
+                                <th>
+                                    Описание подтверждающего документа
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var insuranceCase in Model.InsuranceCases){
+                                    <tr>
+                                        <td>
+                                            @insuranceCase.Date.ToShortDateString()
+                                        </td>
+                                        <td>
+                                            @insuranceCase.Description
+                                        </td>
+                                        <td>
+                                            @insuranceCase.InsurancePayment $
+                                        </td>
+                                        <td>
+                                            @insuranceCase.SupportingDocument.Name
+                                        </td>
+                                        <td>
+                                            @insuranceCase.SupportingDocument.Description
+                                        </td>
+                                    </tr>
+                            }
+                        </tbody>
+                    </table>
+                    </div>
+                }
+                else {
+                    <h1 class="text-primary text-center">У клиента нет страховых случаев</h1>
+                }
+
+            </div>
+
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Удалить" class="btn btn-danger" /> |
+                <a asp-controller="Clients" asp-action="Index" class="btn btn-primary">Отменить</a>
+            </form>
+        </div>
+    </div>
+</div>

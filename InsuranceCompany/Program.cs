@@ -14,6 +14,7 @@ builder.Services.AddDbContext<InsuranceCompanyIdentityContext>(option => option.
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+
 builder.Services
     .AddDefaultIdentity<ApplicationUser>(options => 
         options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+=\\/?!"
@@ -21,7 +22,6 @@ builder.Services
     .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<InsuranceCompanyIdentityContext>();
-
 
 builder.Services.AddTransient<InsuranceCompanyCookieManager>();
 builder.Services.AddTransient<InsuranceCompanyCache>();

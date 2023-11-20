@@ -56,7 +56,7 @@ namespace InsuranceCompany.Areas.Identity.Pages.Account {
 
             if ((Input.Role == "Клиент" && ModelState.ErrorCount <= 2) || (Input.Role == "Страховой агент" && ModelState.ErrorCount <= 3)) {
                 var user = CreateUser();
-                var userName = DbConverter.GetUserNameTranslator($"{Input.Name.Trim()}_{Input.Surname.Trim()}_{Input.MiddleName.Trim()}");
+                var userName = DbConverter.GetTranslator($"{Input.Name.Trim()}_{Input.Surname.Trim()}_{Input.MiddleName.Trim()}");
 
                 await _userStore.SetUserNameAsync(user, userName, CancellationToken.None);
 

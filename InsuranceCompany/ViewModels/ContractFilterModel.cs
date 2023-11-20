@@ -16,5 +16,6 @@ namespace InsuranceCompany.ViewModels {
         public SortType SortTypeResponsobilities { get; set; }
         public SortType SortTypeSalary { get; set; }
         public SortType SortTypeTransactionPercent { get; set; }
+        public SortType SortTypeContractDuration { get; set; }
     }
 }

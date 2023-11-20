@@ -1,0 +1,81 @@
+﻿@using InsuranceCompany.ViewModels;
+@model PageModel<SupportingDocument, SupportingDocumentFilterModel>;
+
+@{
+    ViewData["Title"] = "Подтверждающие документы";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .hidden {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+    }
+</style>
+<div class="row">
+    <div id="filterMenu" class="card col-sm-3 hidden">
+        <div class="card-header">
+            <h5 class="text-primary text-center">Фильтры</h5>
+        </div>
+        <form asp-action="Index" method="post">
+            <div class="form-group mb-3">
+                <label class="form-label">Название</label>
+                <input asp-for="@Model.FilterModel.Name" name="Name" class="form-control" />
+            </div>
+            
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка по названию</label>
+                <select name="SortTypeName" asp-for="@Model.FilterModel.SortTypeName" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-block">Применить</button>
+            </div>
+        </form>
+    </div>
+    <div class="col">
+        <h1 class="display-4 text-primary text-center">Полисы</h1>
+        <div class="d-flex justify-content-between mb-2">
+            <a class="btn btn-primary btn-block " asp-action="Create">Добавить подтверждающий документ</a>
+            <button id="toggleFilterMenu" class="btn btn-primary btn-block">Фильтры</button>
+        </div>
+        <div class="row">
+            @foreach (var supportingDocument in Model.Entities) {
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <h5 class="card-title text-center text-primary">@supportingDocument.Name</h5>
+                            <p class="card-text"><strong>Описание:</strong> @supportingDocument.Description</p>
+                            <a class="text-dark" asp-action="Edit" asp-route-id="@supportingDocument.Id">Редактировать</a> |
+                            <a class="text-dark" asp-action="Delete" asp-route-id="@supportingDocument.Id">Удалить</a> |
+                            <a class="text-dark" asp-action="Details" asp-route-id="@supportingDocument.Id">Детали</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (int i = 1; i <= Model.TotalPages; i++) {
+                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = Model.PageSize })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('toggleFilterMenu').addEventListener('click', function () {
+        var filterMenu = document.getElementById('filterMenu');
+        filterMenu.classList.toggle('hidden');
+    });
+</script>

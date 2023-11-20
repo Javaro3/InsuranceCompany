@@ -1,0 +1,155 @@
+﻿@using InsuranceCompany.ViewModels;
+@model PageModel<Client, ClientFilterModel>;
+
+@{
+    ViewData["Title"] = "Клиенты";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .hidden {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+    }
+</style>
+<div class="row">
+    <div id="filterMenu" class="card col-sm-3 hidden">
+        <div class="card-header">
+            <h5 class="text-primary text-center">Фильтры</h5>
+        </div>
+        <form asp-action="Index">
+            <div class="form-group mb-3">
+                <label class="control-label">Фамилия</label>
+                <input class="form-control" name="Surname" value="@Model.FilterModel.Surname" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Имя</label>
+                <input class="form-control" name="Name" value="@Model.FilterModel.Name" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Отчество</label>
+                <input class="form-control" name="MiddleName" value="@Model.FilterModel.MiddleName" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Адрес</label>
+                <input class="form-control" name="Address" value="@Model.FilterModel.Address" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Номер телефона</label>
+                <input class="form-control" name="MobilePhone" value="@Model.FilterModel.MobilePhone" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Номер пасспорта</label>
+                <input asp-for="@Model.FilterModel.PassportNumber" class="form-control" name="PassportNumber" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">День рождения (ОТ и ДО)</label>
+                <input asp-for="@Model.FilterModel.BirthdateStart" type="date" class="form-control" name="BirthdateStart" />
+                <input asp-for="@Model.FilterModel.BirthdateEnd" type="date" class="form-control" name="BirthdateEnd" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Дата выдачи пасспорта (ОТ и ДО)</label>
+                <input asp-for="@Model.FilterModel.PassportIssueDateStart" type="date" class="form-control" name="PassportIssueDateStart" />
+                <input asp-for="@Model.FilterModel.PassportIssueDateEnd" type="date" class="form-control" name="PassportIssueDateEnd" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label">Клиенты у которых полис истекает в следующем месяце</label>
+                <input asp-for="@Model.FilterModel.PolicyIsFinishNextMounth" type="checkbox" name="PolicyIsFinishNextMounth" class="form-check-input" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка по фамилии</label>
+                <select name="SortTypeSurname" asp-for="@Model.FilterModel.SortTypeSurname" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка по имени</label>
+                <select name="SortTypeName" asp-for="@Model.FilterModel.SortTypeName" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка по отчеству</label>
+                <select name="SortTypeMiddleName" asp-for="@Model.FilterModel.SortTypeMiddleName" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка по дате рождения</label>
+                <select name="SortTypeBirthdate" asp-for="@Model.FilterModel.SortTypeBirthdate" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка по дате выдачи пасспорта</label>
+                <select name="SortTypePassportIssueDate" asp-for="@Model.FilterModel.SortTypePassportIssueDate" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="card-footer mb-3">
+                <button type="submit" class="btn btn-primary btn-block">Применить</button>
+            </div>
+        </form>
+    </div>
+    <div class="col">
+        <h1 class="display-4 text-primary text-center">Клиенты</h1>
+        <div class="d-flex justify-content-end mb-2">
+            <button id="toggleFilterMenu" class="btn btn-primary btn-block">Фильтры</button>
+        </div>
+        <div class="row">
+            @foreach (var client in base.Model.Entities) {
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <h5 class="card-title text-center text-primary">@client.Surname @client.Name @client.MiddleName</h5>
+                            <p class="card-text"><strong>Дата рождения:</strong> @client.Birthdate.ToShortDateString()</p>
+                            <p class="card-text"><strong>Номер телефона:</strong> @client.MobilePhone</p>
+                            <p class="card-text"><strong>Адрес:</strong> @client.Address</p>
+                            <p class="card-text"><strong>Номер пасспорта:</strong> @client.PassportNumber</p>
+                            <p class="card-text"><strong>Дата выдачи пасспорта:</strong> @client.PassportIssueDate.ToShortDateString()</p>
+                            <a class="text-dark" asp-action="Edit" asp-route-id="@client.Id">Редактировать</a> |
+                            <a class="text-dark" asp-action="Delete" asp-route-id="@client.Id">Удалить</a> |
+                            <a class="text-dark" asp-action="Details" asp-route-id="@client.Id">Детали</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (int i = 1; i <= base.Model.TotalPages; i++) {
+                        <li class="page-item @(i == base.Model.PageNumber ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = base.Model.PageSize })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('toggleFilterMenu').addEventListener('click', function () {
+        var filterMenu = document.getElementById('filterMenu');
+        filterMenu.classList.toggle('hidden');
+    });
+</script>

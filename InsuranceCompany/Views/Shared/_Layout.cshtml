@@ -27,18 +27,18 @@
                             var role = @UserManager.GetRolesAsync(@UserManager.GetUserAsync(User).Result).Result[0];
                             if (role == "Клиент") {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Полисы</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="ClientPolicies" asp-action="Index">Полисы</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Страховые случаи</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Подтверждающие документы</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="ClientInsuranceCases" asp-action="Index">Страховые случаи</a>
                                 </li>
                             }
                             else {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceTypes" asp-action="Index">Типы страховок</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="SupportingDocuments" asp-action="Index">Подтверждающие документы</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Policies" asp-action="Index">Полисы</a>
@@ -47,10 +47,10 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Contracts" asp-action="Index">Контракты</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Клиенты</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Клиенты</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Страховые агенты</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceAgents" asp-action="Index">Страховые агенты</a>
                                 </li>
                             }
                         }

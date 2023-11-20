@@ -1,0 +1,112 @@
+﻿@using InsuranceCompany.ViewModels;
+@model PageModel<InsuranceCase, InsuranceCaseFilterModel>;
+
+@{
+    ViewData["Title"] = "Страховые случаи";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .hidden {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+    }
+</style>
+<div class="row">
+    <div id="filterMenu" class="card col-sm-3 hidden">
+        <div class="card-header">
+            <h5 class="text-primary text-center">Фильтры</h5>
+        </div>
+        <form asp-action="Index">
+            <div class="form-group mb-3">
+                <label class="control-label">Подтверждающий документ</label>
+                <input class="form-control" name="SupportingDocument" value="@Model.FilterModel.SupportingDocument" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Дата (ОТ и ДО)</label>
+                <input asp-for="@Model.FilterModel.StartDate" type="date" class="form-control" name="StartDate" />
+                <input asp-for="@Model.FilterModel.EndDate" type="date" class="form-control" name="EndDate" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Страховая выплата (ОТ и ДО)</label>
+                <input asp-for="@Model.FilterModel.MinInsurancePayment" type="number" step="any" class="form-control" name="MinInsurancePayment" />
+                <input asp-for="@Model.FilterModel.MaxInsurancePayment" type="number" step="any" class="form-control" name="MaxInsurancePayment" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка по подтверждающему документу</label>
+                <select name="SortTypeSupportingDocument" asp-for="@Model.FilterModel.SortTypeSupportingDocument" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка по дате</label>
+                <select name="SortTypeDate" asp-for="@Model.FilterModel.SortTypeDate" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка по страховой выплате</label>
+                <select name="SortTypeInsurancePayment" asp-for="@Model.FilterModel.SortTypeInsurancePayment" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="card-footer mb-3">
+                <button type="submit" class="btn btn-primary btn-block">Применить</button>
+            </div>
+        </form>
+    </div>
+    <div class="col">
+        <h1 class="display-4 text-primary text-center">Страховые случаи</h1>
+        <div class="d-flex justify-content-between mb-2">
+            <a class="btn btn-primary btn-block" asp-action="Create">Добавить страховой случай</a>
+            <button id="toggleFilterMenu" class="btn btn-primary btn-block">Фильтры</button>
+        </div>
+        <div class="row">
+            @foreach (var insuranceCase in base.Model.Entities) {
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <h5 class="card-title text-center text-primary">@insuranceCase.Date.ToShortDateString()</h5>
+                            <p class="card-text"><strong>Страховая выплата:</strong> @insuranceCase.InsurancePayment</p>
+                            <p class="card-text"><strong>Описание:</strong> @insuranceCase.Description</p>
+                            <p class="card-text"><strong>Подтверждающий документ:</strong> @insuranceCase.SupportingDocument.Name</p>
+                            <p class="card-text"><strong>Описание подтверждающего документа:</strong> @insuranceCase.SupportingDocument.Description</p>
+                            <a class="text-dark" asp-action="Edit" asp-route-id="@insuranceCase.Id">Редактировать</a> |
+                            <a class="text-dark" asp-action="Delete" asp-route-id="@insuranceCase.Id">Удалить</a> |
+                            <a class="text-dark" asp-action="Details" asp-route-id="@insuranceCase.Id">Детали</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (int i = 1; i <= base.Model.TotalPages; i++) {
+                        <li class="page-item @(i == base.Model.PageNumber ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = base.Model.PageSize })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('toggleFilterMenu').addEventListener('click', function () {
+        var filterMenu = document.getElementById('filterMenu');
+        filterMenu.classList.toggle('hidden');
+    });
+</script>

@@ -15,7 +15,7 @@
 <div class="row">
     <div id="filterMenu" class="card col-sm-3 hidden">
         <div class="card-header">
-            <h5>Фильтры</h5>
+            <h5 class="text-primary text-center">Фильтры</h5>
         </div>
         <form asp-action="Index">
             <div class="form-group mb-3">
@@ -64,6 +64,15 @@
             <div class="form-group mb-3">
                 <label class="control-label">Сортировка процента от сделки</label>
                 <select name="SortTypeTransactionPercent" asp-for="@Model.FilterModel.SortTypeTransactionPercent" class="form-select" aria-required="true">
+                    <option value="0">Без сортировки</option>
+                    <option value="1">По возрастанию</option>
+                    <option value="2">По убыванию</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Сортировка по продолжительности контракта</label>
+                <select name="SortTypeContractDuration" asp-for="@Model.FilterModel.SortTypeContractDuration" class="form-select" aria-required="true">
                     <option value="0">Без сортировки</option>
                     <option value="1">По возрастанию</option>
                     <option value="2">По убыванию</option>
