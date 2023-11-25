@@ -5,47 +5,48 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<h1 class="text-center">Добавить полис</h1>
-<div class="row d-flex justify-content-center">
+<h1 class="display-4 text-primary text-center">Добавить</h1>
+<div class="row d-flex justify-content-center mb-2">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PolicyNumber" class="control-label">Номер полиса</label>
-                <input asp-for="PolicyNumber" class="form-control" />
+            <div class="form-floating mb-3">
+                <input asp-for="PolicyNumber" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.PolicyNumber)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.PolicyNumber)" />
+                <label asp-for="PolicyNumber">@Html.DisplayNameFor(model => model.PolicyNumber)</label>
                 <span asp-validation-for="PolicyNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PolicyPayment" class="control-label">Страховая выплата</label>
-                <input asp-for="PolicyPayment" class="form-control" />
-                <span asp-validation-for="PolicyPayment" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ApplicationDate" class="control-label">Начало действия полиса</label>
-                <input asp-for="ApplicationDate" class="form-control" />
+            <div class="form-floating mb-3">
+                <input asp-for="ApplicationDate" type="date" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.ApplicationDate)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.ApplicationDate)" />
+                <label asp-for="ApplicationDate">@Html.DisplayNameFor(model => model.ApplicationDate)</label>
                 <span asp-validation-for="ApplicationDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PolicyTerm" class="control-label">Продолжительность действия полиса (в месяцах)</label>
-                <input asp-for="PolicyTerm" class="form-control" />
+            <div class="form-floating mb-3">
+                <input asp-for="PolicyTerm" type="number" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.PolicyTerm)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.PolicyTerm)" />
+                <label asp-for="PolicyTerm">@Html.DisplayNameFor(model => model.PolicyTerm)</label>
                 <span asp-validation-for="PolicyTerm" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="InsuranceAgentId" class="control-label">Страховой агент</label>
-                <select asp-for="InsuranceAgentId" class="form-control" asp-items="ViewBag.InsuranceAgentId"></select>
+            <div class="form-floating mb-3">
+                <input asp-for="PolicyPayment" type="number" step="any" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.PolicyPayment)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.PolicyPayment)" />
+                <label asp-for="PolicyPayment">@Html.DisplayNameFor(model => model.PolicyPayment)</label>
+                <span asp-validation-for="PolicyPayment" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="InsuranceTypeId" class="control-label">Тип страховки</label>
+            <div class="form-floating mb-3">
                 <select asp-for="InsuranceTypeId" class="form-control" asp-items="ViewBag.InsuranceTypeId"></select>
+                <label asp-for="InsuranceTypeId">@Html.DisplayNameFor(model => model.InsuranceTypeId)</label>
+                <span asp-validation-for="InsuranceTypeId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Добавить" class="w-100 btn btn-lg btn-primary mt-2" />
+            <div class="form-floating mb-3">
+                <select asp-for="InsuranceAgentId" class="form-control" asp-items="ViewBag.InsuranceAgentId"></select>
+                <label asp-for="InsuranceAgentId">@Html.DisplayNameFor(model => model.InsuranceAgentId)</label>
+                <span asp-validation-for="InsuranceAgentId" class="text-danger"></span>
             </div>
+
+            <input type="submit" value="Сохранить" class="w-100 btn btn-lg btn-primary mt-2" />
         </form>
     </div>
 </div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

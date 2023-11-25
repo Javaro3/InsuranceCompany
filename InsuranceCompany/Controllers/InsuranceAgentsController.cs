@@ -100,7 +100,7 @@ namespace InsuranceCompany.Controllers {
                     _context.Update(insuranceAgent);
 
                     await _context.SaveChangesAsync();
-                    _cache.SetEntity<InsuranceAgent>();
+                    UpdateCache();
                 }
                 catch (DbUpdateConcurrencyException) {
                     return NotFound();
@@ -137,7 +137,7 @@ namespace InsuranceCompany.Controllers {
             }
 
             await _context.SaveChangesAsync();
-            _cache.SetEntity<InsuranceAgent>();
+            UpdateCache();
             return RedirectToAction(nameof(Index));
         }
 
@@ -153,6 +153,12 @@ namespace InsuranceCompany.Controllers {
                 Text = e.Type,
                 Value = e.Id.ToString()
             });
+        }
+
+        private void UpdateCache() {
+            _cache.SetEntity<InsuranceAgent>();
+            _cache.SetEntity<Policy>();
+            _cache.SetEntity<PolicyClient>();
         }
     }
 }

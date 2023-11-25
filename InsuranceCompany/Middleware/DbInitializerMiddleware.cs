@@ -12,7 +12,10 @@ namespace InsuranceCompany.Middleware {
         }
 
         public Task Invoke(HttpContext httpContext, InsuranceCompanyContext db, InsuranceCompanyIdentityContext identityDb, UserManager<ApplicationUser> userManager) {
-            InsuranceCompanyInitializer.Initialize(db, identityDb, userManager);
+            if (!(httpContext.Session.Keys.Contains("database"))) {
+                InsuranceCompanyInitializer.Initialize(db, identityDb, userManager);
+                httpContext.Session.SetString("database", "initial");
+            }
             return _next.Invoke(httpContext);
         }
     }

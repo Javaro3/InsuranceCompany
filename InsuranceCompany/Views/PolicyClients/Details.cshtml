@@ -1,0 +1,73 @@
+﻿@using InsuranceCompany.Utilities;
+@model Policy
+
+
+@{
+    ViewData["Title"] = "Детали о полисах";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card mb-3">
+        <h3 class="card-header text-primary text-center">@Model.PolicyNumber</h3>
+        <div class="card-body">
+            <div class="card-body row d-flex align-items-center">
+                <div class="col">
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.PolicyPayment)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.PolicyPayment $</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.ApplicationDate)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.ApplicationDate.ToShortDateString()</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.PolicyTerm)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.PolicyTerm мес.</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.InsuranceType.Name)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.InsuranceType.Name</h6>
+                </div>
+                <div class="col">
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Страховой агент
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="overflow-auto" style="height: 250px;">
+                                        <div class="card mb-3">
+                                            <h3 class="card-header text-primary">@Model.InsuranceAgent.Surname @Model.InsuranceAgent.Name @Model.InsuranceAgent.MiddleName</h3>
+                                            <div class="card-body">
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.InsuranceAgent.AgentType.Type)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.InsuranceAgent.AgentType.Type</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.InsuranceAgent.Contract.Responsibilities)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.InsuranceAgent.Contract.Responsibilities</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.InsuranceAgent.Contract.StartDeadline)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.InsuranceAgent.Contract.StartDeadline.ToShortDateString()</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.InsuranceAgent.Contract.EndDeadline)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.InsuranceAgent.Contract.EndDeadline.ToShortDateString()</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.InsuranceAgent.Contract.Salary)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.InsuranceAgent.Contract.Salary $</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.InsuranceAgent.Contract.TransactionPercent)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.InsuranceAgent.Contract.TransactionPercent</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-start">
+            <a class="btn btn-primary mx-2" asp-action="Index">Вернуться к списку</a>
+        </div>
+    </div>
+</div>

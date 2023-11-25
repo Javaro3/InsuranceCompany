@@ -1,7 +1,6 @@
 ﻿@using InsuranceCompany.Utilities;
 @using InsuranceCompany.ViewModels;
-@using Microsoft.AspNetCore.Identity
-@model PageModelWithAggregateValue<Policy, PolicyFilterModel, decimal>;
+@model PageModel<Policy, PolicyFilterModel>;
 
 @{
     ViewData["Title"] = "Полисы";
@@ -15,7 +14,7 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <form asp-action="Index">
+        <form asp-action="Create">
             <div class="form-floating mb-3">
                 <input name="PolicyNumber" asp-for="@Model.FilterModel.PolicyNumber" class="form-control" placeholder="@Html.DisplayNameFor(model => model.FilterModel.PolicyNumber)" />
                 <label asp-for="@Model.FilterModel.PolicyNumber">@Html.DisplayNameFor(model => model.FilterModel.PolicyNumber)</label>
@@ -95,16 +94,10 @@
 </div>
 
 <h1 class="display-4 text-primary text-center">Полисы</h1>
-<div class="d-flex justify-content-between mb-2">
-    <a class="btn btn-primary text-decoration-none" asp-action="Create">
-        @Html.AddIcon(32, 32)
-    </a>
+<div class="d-flex justify-content-end mb-2">
     <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
         @Html.FilterIcon(32, 32)
     </button>
-</div>
-<div class="d-flex justify-content-start mb-2">
-    <h3 class="card-header text-primary">Сумма страховых выплат: @Model.AggregateValue $</h3>
 </div>
 
 <div class="row">
@@ -129,14 +122,8 @@
                     <h6 class="card-subtitle text-muted">@policy.InsuranceAgent.Surname @policy.InsuranceAgent.Name @policy.InsuranceAgent.MiddleName</h6>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <a class="text-decoration-none mx-1" asp-action="Edit" asp-route-id="@policy.Id">
-                        @Html.EditIcon(28, 28)
-                    </a>
-                    <a class="text-decoration-none mx-1" asp-action="Delete" asp-route-id="@policy.Id">
-                        @Html.DeleteIcon(28, 28)
-                    </a>
-                    <a class="text-decoration-none mx-1" asp-action="Details" asp-route-id="@policy.Id">
-                        @Html.InfoIcon(28, 28)
+                    <a class="text-decoration-none mx-1" asp-action="Add" asp-route-id="@policy.Id">
+                        @Html.AddIcon(28, 28)
                     </a>
                 </div>
             </div>

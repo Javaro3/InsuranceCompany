@@ -81,7 +81,7 @@ namespace InsuranceCompany.Controllers {
             if (ModelState.IsValid) {
                 _context.Add(policy);
                 await _context.SaveChangesAsync();
-                _cache.SetEntity<Policy>();
+                UpdateCache();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["InsuranceAgentId"] = GetInsuranceAgentsList();
@@ -114,7 +114,7 @@ namespace InsuranceCompany.Controllers {
                 try {
                     _context.Update(policy);
                     await _context.SaveChangesAsync();
-                    _cache.SetEntity<Policy>();
+                    UpdateCache();
                 }
                 catch (DbUpdateConcurrencyException) {
                     return NotFound();
@@ -148,7 +148,7 @@ namespace InsuranceCompany.Controllers {
             }
 
             await _context.SaveChangesAsync();
-            _cache.SetEntity<Policy>();
+            UpdateCache();
             return RedirectToAction(nameof(Index));
         }
 
@@ -164,6 +164,11 @@ namespace InsuranceCompany.Controllers {
                 Text = e.Name,
                 Value = e.Id.ToString()
             });
+        }
+
+        private void UpdateCache() {
+            _cache.SetEntity<Policy>();
+            _cache.SetEntity<PolicyClient>();
         }
     }
 }

@@ -53,9 +53,8 @@ namespace InsuranceCompany.Controllers {
             if (contract == null) {
                 return NotFound();
             }
-            var insuranceAgents = _cache.GetEntity<InsuranceAgent>().Where(e => e.ContractId == id);
-            var viewModel = (contract, insuranceAgents);
-            return View(viewModel);
+            contract.InsuranceAgents = _cache.GetEntity<InsuranceAgent>().Where(e => e.ContractId == id).ToList();
+            return View(contract);
         }
 
         public IActionResult Create() {
@@ -68,7 +67,7 @@ namespace InsuranceCompany.Controllers {
             if (ModelState.IsValid) {
                 _context.Add(contract);
                 await _context.SaveChangesAsync();
-                _cache.SetEntity<Contract>();
+                UpdateCache();
                 return RedirectToAction(nameof(Index));
             }
             return View(contract);
@@ -97,7 +96,7 @@ namespace InsuranceCompany.Controllers {
                 try {
                     _context.Update(contract);
                     await _context.SaveChangesAsync();
-                    _cache.SetEntity<Contract>();
+                    UpdateCache();
                 }
                 catch (DbUpdateConcurrencyException) {
                     return NotFound();
@@ -129,8 +128,15 @@ namespace InsuranceCompany.Controllers {
             }
 
             await _context.SaveChangesAsync();
-            _cache.SetEntity<Contract>();
+            UpdateCache();
             return RedirectToAction(nameof(Index));
+        }
+
+        private void UpdateCache() {
+            _cache.SetEntity<Contract>();
+            _cache.SetEntity<InsuranceAgent>();
+            _cache.SetEntity<Policy>();
+            _cache.SetEntity<PolicyClient>();
         }
     }
 }

@@ -33,7 +33,8 @@ namespace InsuranceCompany.Controllers {
         }
 
         public async Task<IActionResult> Index(int page, int pageSize = PAGE_SIZE) {
-            var insuranceCaseFilter = _cookieManager.GetCookie<InsuranceCaseFilterModel>(HttpContext.Request.Cookies);
+            var insuranceCaseFilter = _cookieManager.GetCookie<InsuranceCaseFilterModel>(HttpContext.Request.Cookies, "client");
+            insuranceCaseFilter.InsuranceTypeList = GetInsuranceTypeList();
             var client = GetClient();
             var insuranceCases = _filter.Filter(insuranceCaseFilter).Where(e => e.ClientId == client.Id);
             var viewModel = new PageModel<InsuranceCase, InsuranceCaseFilterModel>(page, pageSize, insuranceCases, insuranceCaseFilter);
@@ -43,7 +44,8 @@ namespace InsuranceCompany.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Index(InsuranceCaseFilterModel insuranceCaseFilter, int page, int pageSize = PAGE_SIZE) {
-            _cookieManager.SetCookie(insuranceCaseFilter, HttpContext.Response.Cookies);
+            _cookieManager.SetCookie(insuranceCaseFilter, HttpContext.Response.Cookies, "client");
+            insuranceCaseFilter.InsuranceTypeList = GetInsuranceTypeList();
             var client = GetClient();
             var insuranceCases = _filter.Filter(insuranceCaseFilter).Where(e => e.ClientId == client.Id);
             var viewModel = new PageModel<InsuranceCase, InsuranceCaseFilterModel>(page, pageSize, insuranceCases, insuranceCaseFilter);
@@ -74,11 +76,11 @@ namespace InsuranceCompany.Controllers {
         public async Task<IActionResult> Create(InsuranceCase insuranceCase) {
             var client = GetClient();
             insuranceCase.ClientId = client.Id;
-            
+
             if (ModelState.IsValid) {
                 _context.Add(insuranceCase);
                 await _context.SaveChangesAsync();
-                _cache.SetEntity<InsuranceCase>();
+                UpdateCache();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["SupportingDocumentId"] = GetSupportingDocumentsList();
@@ -111,7 +113,7 @@ namespace InsuranceCompany.Controllers {
             if (ModelState.IsValid) {
                 try {
                     _context.Update(insuranceCase);
-                    _cache.SetEntity<InsuranceCase>();
+                    UpdateCache();
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException) {
@@ -145,16 +147,24 @@ namespace InsuranceCompany.Controllers {
             }
 
             await _context.SaveChangesAsync();
-            _cache.SetEntity<InsuranceCase>();
+            UpdateCache();
             return RedirectToAction(nameof(Index));
         }
 
         private IEnumerable<SelectListItem> GetSupportingDocumentsList() {
             return _cache.GetEntity<SupportingDocument>()
                 .Select(e => new SelectListItem() {
-                Text = e.Name,
-                Value = e.Id.ToString()
-            });
+                    Text = e.Name,
+                    Value = e.Id.ToString()
+                });
+        }
+
+        private IEnumerable<SelectListItem> GetInsuranceTypeList() {
+            return _cache.GetEntity<InsuranceType>()
+                .Select(e => new SelectListItem() {
+                    Text = e.Name,
+                    Value = e.Id.ToString()
+                });
         }
 
         private Client GetClient() {
@@ -165,6 +175,10 @@ namespace InsuranceCompany.Controllers {
                     applicationUser.Surname == e.Surname &&
                     applicationUser.MiddleName == e.MiddleName);
 
+        }
+
+        private void UpdateCache() {
+            _cache.SetEntity<InsuranceCase>();
         }
     }
 }

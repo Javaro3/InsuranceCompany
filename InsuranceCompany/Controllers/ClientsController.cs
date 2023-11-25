@@ -88,10 +88,10 @@ namespace InsuranceCompany.Controllers {
             if (ModelState.IsValid) {
                 try {
                     var oldClient = _cache.GetEntity<Client>().FirstOrDefault(e => e.Id == id);
-                    
+
                     var oldUserName = DbConverter.GetUserNameTranslator(oldClient);
                     var newUserName = DbConverter.GetUserNameTranslator(client);
-                    
+
                     var applicationUser = _userManager.Users.FirstOrDefault(e => e.UserName == oldUserName);
                     applicationUser.Name = client.Name;
                     applicationUser.Surname = client.Surname;
@@ -102,7 +102,7 @@ namespace InsuranceCompany.Controllers {
                     _context.Update(client);
 
                     await _context.SaveChangesAsync();
-                    _cache.SetEntity<Client>();
+                    UpdateCache();
                 }
                 catch (DbUpdateConcurrencyException) {
                     return NotFound();
@@ -138,8 +138,15 @@ namespace InsuranceCompany.Controllers {
             }
 
             await _context.SaveChangesAsync();
-            _cache.SetEntity<Client>();
+            UpdateCache();
             return RedirectToAction(nameof(Index));
+        }
+
+        private void UpdateCache() {
+            _cache.SetEntity<Client>();
+            _cache.SetEntity<InsuranceCase>();
+            _cache.SetEntity<SupportingDocument>();
+            _cache.SetEntity<PolicyClient>();
         }
     }
 }

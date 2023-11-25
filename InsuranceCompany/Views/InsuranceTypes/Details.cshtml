@@ -1,0 +1,73 @@
+﻿@using InsuranceCompany.Utilities;
+@model InsuranceType
+
+@{
+    ViewData["Title"] = "Детали о типах страховок";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card mb-3">
+        <h3 class="card-header text-primary text-center">@Model.Name</h3>
+        <div class="card-body">
+            <div class="card-body row d-flex align-items-center">
+                <div class="col">
+                    <h5 class="card-title">@Html.DisplayNameFor(model => model.Description)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Description</h6>
+                </div>
+                <div class="col">
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Список полисов
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    @if(Model.Policies.Count() > 0){
+                                        <div class="overflow-auto" style="height: 300px;">
+                                        @foreach(var policy in Model.Policies) {
+                                            <div class="card mb-3">
+                                                <h3 class="card-header text-primary">@policy.PolicyNumber</h3>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">@Html.DisplayNameFor(model => policy.PolicyPayment)</h5>
+                                                    <h6 class="card-subtitle text-muted">@policy.PolicyPayment $</h6>
+
+                                                    <h5 class="card-title">@Html.DisplayNameFor(model => policy.ApplicationDate)</h5>
+                                                    <h6 class="card-subtitle text-muted">@policy.ApplicationDate.ToShortDateString()</h6>
+
+                                                    <h5 class="card-title">@Html.DisplayNameFor(model => policy.PolicyTerm)</h5>
+                                                    <h6 class="card-subtitle text-muted">@policy.PolicyTerm мес.</h6>
+                                                </div>
+                                                <div class="card-footer d-flex justify-content-end">
+                                                    <a class="text-decoration-none mx-1" asp-action="Edit" asp-controller="Policies" asp-route-id="@policy.Id">
+                                                        @Html.EditIcon(28, 28)
+                                                    </a>
+                                                    <a class="text-decoration-none mx-1" asp-action="Delete" asp-controller="Policies" asp-route-id="@policy.Id">
+                                                        @Html.DeleteIcon(28, 28)
+                                                    </a>
+                                                    <a class="text-decoration-none mx-1" asp-action="Details" asp-controller="Policies" asp-route-id="@policy.Id">
+                                                        @Html.InfoIcon(28, 28)
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        }
+                                        </div>
+                                    }
+                                    else {
+                                        <h3 class="card-header text-primary text-center">Полисов нет</h3>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-start">
+            <a class="btn btn-primary mx-2" asp-action="Index">Вернуться к списку</a>
+            <a class="btn btn-warning mx-2" asp-action="Edit" asp-route-id="@Model.Id">Редактировать</a>
+        </div>
+    </div>
+</div>

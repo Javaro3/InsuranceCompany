@@ -2,67 +2,70 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - Страховая компания</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrapWatch.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/InsuranceCompany.styles.css" asp-append-version="true" />
 </head>
 <body class="vsc-initialized">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+          <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Страховая компания</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @if (SignInManager.IsSignedIn(User)) {
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                  <ul class="navbar-nav me-auto">
+                        @if (SignInManager.IsSignedIn(User)){
                             var role = @UserManager.GetRolesAsync(@UserManager.GetUserAsync(User).Result).Result[0];
                             if (role == "Клиент") {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="PolicyClients" asp-action="Index">Полисы</a>
+                                    <a class="nav-link" asp-area="" asp-controller="PolicyClients" asp-action="Index">Полисы</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="ClientInsuranceCases" asp-action="Index">Страховые случаи</a>
+                                    <a class="nav-link" asp-area="" asp-controller="ClientInsuranceCases" asp-action="Index">Страховые случаи</a>
                                 </li>
                             }
                             else {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceTypes" asp-action="Index">Типы страховок</a>
+                                    <a class="nav-link" asp-area="" asp-controller="InsuranceTypes" asp-action="Index">Типы страховок</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="SupportingDocuments" asp-action="Index">Подтверждающие документы</a>
+                                    <a class="nav-link" asp-area="" asp-controller="SupportingDocuments" asp-action="Index">Подтверждающие документы</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Policies" asp-action="Index">Полисы</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Policies" asp-action="Index">Полисы</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Contracts" asp-action="Index">Контракты</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Contracts" asp-action="Index">Контракты</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Клиенты</a>
+                                    <a class="nav-link" asp-area="" asp-controller="InsuranceCases" asp-action="Index">Страховые случаи</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="InsuranceAgents" asp-action="Index">Страховые агенты</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Clients" asp-action="Index">Клиент</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="InsuranceAgents" asp-action="Index">Страховые агенты</a>
                                 </li>
                             }
                         }
-                        else{
+                        else {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная страницы</a>
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная страницы</a>
                             </li>
                         }
-                    </ul>
-                </div>
+                  </ul>
+                <partial name="_LoginPartial" />
             </div>
-            <partial name="_LoginPartial" />
+          </div>
         </nav>
     </header>
     <div class="container">
@@ -76,6 +79,7 @@
             &copy; 2023 - InsuranceCompany - <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

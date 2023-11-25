@@ -1,7 +1,7 @@
 ﻿@model InsuranceCompany.Models.Policy
 
 @{
-    ViewData["Title"] = "Удаление полисов";
+    ViewData["Title"] = "Оформление полиса";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -25,10 +25,10 @@
             <h6 class="card-subtitle text-muted">@Model.InsuranceAgent.Surname @Model.InsuranceAgent.Name @Model.InsuranceAgent.MiddleName</h6>
         </div>
         <div class="card-footer d-flex justify-content-start">
-            <form asp-action="Delete">
+            <form asp-action="Add">
                 <input type="hidden" asp-for="Id" />
-                <input type="submit" value="Удалить" class="btn btn-danger" />
-                <a asp-controller="Policies" asp-action="Index" class="btn btn-primary">Отменить</a>
+                <input type="submit" value="Оформить" class="btn btn-warning mx-2" />
+                <a asp-controller="PolicyClients" asp-action="Create" class="btn btn-primary mx-2">Отменить</a>
             </form>
         </div>
     </div>

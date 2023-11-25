@@ -1,204 +1,134 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject UserManager<ApplicationUser> UserManager
+﻿@using InsuranceCompany.Utilities;
 @model ValueTuple<Policy, IEnumerable<Client>>
 
 
 @{
     ViewData["Title"] = "Детали о полисах";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var role = @UserManager.GetRolesAsync(@UserManager.GetUserAsync(User).Result).Result[0];
 }
 
 <div class="container mt-5">
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title text-primary text-center">Информация о полисе</h5>
-        </div>
-        <div class="card-body row d-flex align-items-center text-center">
-            <div class="col">
-                <h5 class="card-text text-primary"><strong>Номер полиса</strong></h5>
-                <h6 class="card-text">@Model.Item1.PolicyNumber</h6>
-                <h5 class="card-text text-primary"><strong>Страховая выплата</strong></h5>
-                <h6 class="card-text">@Model.Item1.PolicyPayment $</h6>
-                <h5 class="card-text text-primary"><strong>Начало полиса</strong></h5>
-                <h6 class="card-text">@Model.Item1.ApplicationDate.ToShortDateString()</h6>
-                <h5 class="card-text text-primary"><strong>Продолжительность</strong></h5>
-                <h6 class="card-text">@Model.Item1.PolicyTerm мес.</h6>
-            </div>
-            <div class="col">
-                <h5 class="card-text text-primary text-center"><strong>Страховой агент</strong></h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Фамилия
-                            </th>
-                            <th>
-                                Имя
-                            </th>
-                            <th>
-                                Отчество
-                            </th>
-                            <th>
-                                Тип агента
-                            </th>
-                            <th>
-                                Обязанности
-                            </th>
-                            <th>
-                                Начало контракта
-                            </th>
-                            <th>
-                                Конец контракта
-                            </th>
-                            <th>
-                                Зарплата
-                            </th>
-                            <th>
-                                Процент от сделки
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                @Model.Item1.InsuranceAgent.Surname
-                            </td>
-                            <td>
-                                @Model.Item1.InsuranceAgent.Name
-                            </td>
-                            <td>
-                                @Model.Item1.InsuranceAgent.MiddleName
-                            </td>
-                            <td>
-                                @Model.Item1.InsuranceAgent.AgentType.Type
-                            </td>
-                            <td>
-                                @Model.Item1.InsuranceAgent.Contract.Responsibilities
-                            </td>
-                            <td>
-                                @Model.Item1.InsuranceAgent.Contract.StartDeadline.ToShortDateString()
-                            </td>
-                            <td>
-                                @Model.Item1.InsuranceAgent.Contract.EndDeadline.ToShortDateString()
-                            </td>
-                            <td>
-                                @Model.Item1.InsuranceAgent.Contract.Salary $
-                            </td>
-                            <td>
-                                @Model.Item1.InsuranceAgent.Contract.TransactionPercent
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h5 class="card-text text-primary text-center"><strong>Тип страховки</strong></h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Название
-                            </th>
-                            <th>
-                                Описание
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                @Model.Item1.InsuranceType.Name
-                            </td>
-                            <td>
-                                @Model.Item1.InsuranceType.Description
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                @if(role == "Страховой агент") {
-                    <h5 class="card-text text-primary text-center"><strong>Список клиентов с этим полисом</strong></h5>
-                    @if (Model.Item2.Count() > 0) {
-                        <div class="overflow-auto" style="height: 200px;">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Фамилия
-                                        </th>
-                                        <th>
-                                            Имя
-                                        </th>
-                                        <th>
-                                            Отчество
-                                        </th>
-                                        <th>
-                                            Дата рождения
-                                        </th>
-                                        <th>
-                                            Номер телефона
-                                        </th>
-                                        <th>
-                                            Адрес
-                                        </th>
-                                        <th>
-                                            Номер пасспорта
-                                        </th>
-                                        <th>
-                                            Дата выдачи
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var client in Model.Item2) {
-                                        <tr>
-                                            <td>
-                                                @client.Surname
-                                            </td>
-                                            <td>
-                                                @client.Name
-                                            </td>
-                                            <td>
-                                                @client.MiddleName
-                                            </td>
-                                            <td>
-                                                @client.Birthdate.ToShortDateString()
-                                            </td>
-                                            <td>
-                                                @client.MobilePhone
-                                            </td>
-                                            <td>
-                                                @client.Address
-                                            </td>
-                                            <td>
-                                                @client.PassportNumber
-                                            </td>
-                                            <td>
-                                                @client.PassportIssueDate.ToShortDateString()
-                                            </td>
-                                        </tr>
+    <div class="card mb-3">
+        <h3 class="card-header text-primary text-center">@Model.Item1.PolicyNumber</h3>
+        <div class="card-body">
+            <div class="card-body row d-flex align-items-center">
+                <div class="col">
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.Item1.PolicyPayment)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Item1.PolicyPayment $</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.Item1.ApplicationDate)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Item1.ApplicationDate.ToShortDateString()</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.Item1.PolicyTerm)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Item1.PolicyTerm мес.</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.Item1.InsuranceType.Name)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Item1.InsuranceType.Name</h6>
+                </div>
+                <div class="col">
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Страховой агент
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="overflow-auto" style="height: 250px;">
+                                        <div class="card mb-3">
+                                            <h3 class="card-header text-primary">@Model.Item1.InsuranceAgent.Surname @Model.Item1.InsuranceAgent.Name @Model.Item1.InsuranceAgent.MiddleName</h3>
+                                            <div class="card-body">
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.Item1.InsuranceAgent.AgentType.Type)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.Item1.InsuranceAgent.AgentType.Type</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.Item1.InsuranceAgent.Contract.Responsibilities)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.Item1.InsuranceAgent.Contract.Responsibilities</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.Item1.InsuranceAgent.Contract.StartDeadline)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.Item1.InsuranceAgent.Contract.StartDeadline.ToShortDateString()</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.Item1.InsuranceAgent.Contract.EndDeadline)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.Item1.InsuranceAgent.Contract.EndDeadline.ToShortDateString()</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.Item1.InsuranceAgent.Contract.Salary)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.Item1.InsuranceAgent.Contract.Salary $</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => model.Item1.InsuranceAgent.Contract.TransactionPercent)</h5>
+                                                <h6 class="card-subtitle text-muted">@Model.Item1.InsuranceAgent.Contract.TransactionPercent</h6>
+                                            </div>
+                                            <div class="card-footer d-flex justify-content-end">
+                                                <a class="text-decoration-none mx-1" asp-action="Edit" asp-controller="InsuranceAgents" asp-route-id="@Model.Item1.InsuranceAgent.Id">
+                                                    @Html.EditIcon(28, 28)
+                                                </a>
+                                                <a class="text-decoration-none mx-1" asp-action="Delete" asp-controller="InsuranceAgents" asp-route-id="@Model.Item1.InsuranceAgent.Id">
+                                                    @Html.DeleteIcon(28, 28)
+                                                </a>
+                                                <a class="text-decoration-none mx-1" asp-action="Details" asp-controller="InsuranceAgents" asp-route-id="@Model.Item1.InsuranceAgent.Id">
+                                                    @Html.InfoIcon(28, 28)
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                    Список клиентов
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    @if (Model.Item2.Count() > 0) {
+                                        <div class="overflow-auto" style="height: 250px;">
+                                            @foreach (var client in Model.Item2) {
+                                                <div class="card mb-3">
+                                                    <h3 class="card-header text-primary">@client.Surname @client.Name @client.MiddleName</h3>
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">@Html.DisplayNameFor(model => client.Birthdate)</h5>
+                                                        <h6 class="card-subtitle text-muted">@client.Birthdate.ToShortDateString()</h6>
+
+                                                        <h5 class="card-title">@Html.DisplayNameFor(model => client.Address)</h5>
+                                                        <h6 class="card-subtitle text-muted">@client.Address</h6>
+
+                                                        <h5 class="card-title">@Html.DisplayNameFor(model => client.MobilePhone)</h5>
+                                                        <h6 class="card-subtitle text-muted">@client.MobilePhone</h6>
+
+                                                        <h5 class="card-title">@Html.DisplayNameFor(model => client.PassportNumber)</h5>
+                                                        <h6 class="card-subtitle text-muted">@client.PassportNumber</h6>
+
+                                                        <h5 class="card-title">@Html.DisplayNameFor(model => client.PassportIssueDate)</h5>
+                                                        <h6 class="card-subtitle text-muted">@client.PassportIssueDate.ToShortDateString()</h6>
+                                                    </div>
+                                                    <div class="card-footer d-flex justify-content-end">
+                                                        <a class="text-decoration-none mx-1" asp-action="Edit" asp-controller="Clients" asp-route-id="@client.Id">
+                                                            @Html.EditIcon(28, 28)
+                                                        </a>
+                                                        <a class="text-decoration-none mx-1" asp-action="Delete" asp-controller="Clients" asp-route-id="@client.Id">
+                                                            @Html.DeleteIcon(28, 28)
+                                                        </a>
+                                                        <a class="text-decoration-none mx-1" asp-action="Details" asp-controller="Clients" asp-route-id="@client.Id">
+                                                            @Html.InfoIcon(28, 28)
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
                                     }
-                                </tbody>
-                            </table>
+                                    else {
+                                        <h3 class="card-header text-primary text-center">Клиентов нет</h3>
+                                    }
+                                </div>
+                            </div>
                         </div>
-                    }
-                    else {
-                        <h1 class="text-primary text-center">Нет клиентов с этим полисом</h1>
-                    }
-                }
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between mb-3">
-            @if(role =="Страховой агент") {
-                <a class="btn btn-primary" asp-action="Index">Вернуться к списку</a>
-                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Item1.Id">Редактировать</a>
-            }
-            else {
-                <a class="btn btn-primary" asp-controller="PolicyClients" asp-action="Index">Вернуться к списку</a>
-                <form asp-controller="PolicyClients" asp-action="Delete">
-                    <input type="hidden" asp-for="@Model.Item1.Id" name="id"/>
-                    <input type="submit" value="Отменить полис" class="btn btn-danger" />
-                </form>
-            }
-            
+        <div class="card-footer d-flex justify-content-start">
+            <a class="btn btn-primary mx-2" asp-action="Index">Вернуться к списку</a>
+            <a class="btn btn-warning mx-2" asp-action="Edit" asp-route-id="@Model.Item1.Id">Редактировать</a>
         </div>
     </div>
 </div>

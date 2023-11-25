@@ -82,10 +82,7 @@
 </div>
 
 <h1 class="display-4 text-primary text-center">Страховые случаи</h1>
-<div class="d-flex justify-content-between mb-2">
-    <a class="btn btn-primary text-decoration-none" asp-action="Create">
-        @Html.AddIcon(32, 32)
-    </a>
+<div class="d-flex justify-content-end mb-2">
     <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
         @Html.FilterIcon(32, 32)
     </button>
@@ -107,12 +104,6 @@
                     <h6 class="card-subtitle text-muted">@insuranceCase.Description</h6>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <a class="text-decoration-none mx-1" asp-action="Edit" asp-route-id="@insuranceCase.Id">
-                        @Html.EditIcon(28, 28)
-                    </a>
-                    <a class="text-decoration-none mx-1" asp-action="Delete" asp-route-id="@insuranceCase.Id">
-                        @Html.DeleteIcon(28, 28)
-                    </a>
                     <a class="text-decoration-none mx-1" asp-action="Details" asp-route-id="@insuranceCase.Id">
                         @Html.InfoIcon(28, 28)
                     </a>

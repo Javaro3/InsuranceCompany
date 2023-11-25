@@ -1,4 +1,5 @@
 ﻿@using InsuranceCompany.Data.Utilities;
+@using InsuranceCompany.Utilities;
 @using InsuranceCompany.ViewModels;
 @model PageModel<InsuranceType, InsuranceTypeFilterModel>;
 
@@ -7,104 +8,91 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .hidden {
-        display: none;
-        opacity: 0;
-        transition: opacity 0.3s ease-out;
-    }
-</style>
-<div class="row">
-    <div id="filterMenu" class="card col-sm-3 hidden">
-        <div class="card-header">
-            <h5 class="text-primary text-center">Фильтры</h5>
-        </div>
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Фильтры</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
         <form asp-action="Index">
-            <div class="form-group mb-3">
-                <label class="control-label">Название</label>
-                <input class="form-control" name="Name" value="@Model.FilterModel.Name" />
+            <div class="form-floating mb-3">
+                <input name="Name" asp-for="@Model.FilterModel.Name" class="form-control" placeholder="@Html.DisplayNameFor(model => model.FilterModel.Name)" />
+                <label asp-for="@Model.FilterModel.Name">@Html.DisplayNameFor(model => model.FilterModel.Name)</label>
             </div>
             
-            <div class="form-group mb-3">
-                <label class="control-label">Описание</label>
-                <input class="form-control" name="Description" value="@Model.FilterModel.Description" />
+            <div class="form-floating mb-3">
+                <input name="Description" asp-for="@Model.FilterModel.Description" class="form-control" placeholder="@Html.DisplayNameFor(model => model.FilterModel.Description)" />
+                <label asp-for="@Model.FilterModel.Description">@Html.DisplayNameFor(model => model.FilterModel.Description)</label>
             </div>
-
-            <div class="form-group mb-3">
-                <label class="control-label">Сортировка названия</label>
-                <select name="SortTypeName" asp-for="@Model.FilterModel.SortTypeName" class="form-select" aria-required="true">
+            
+            <div class="form-floating mb-3">
+                <select class="form-select" name="SortTypeName" asp-for="@Model.FilterModel.SortTypeName">
                     <option value="0">Без сортировки</option>
                     <option value="1">По возрастанию</option>
                     <option value="2">По убыванию</option>
                 </select>
+                <label asp-for="@Model.FilterModel.SortTypeName">@Html.DisplayNameFor(model => model.FilterModel.SortTypeName)</label>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="control-label">Сортировка описания</label>
-                <select name="SortTypeDescription" asp-for="@Model.FilterModel.SortTypeDescription" class="form-select" aria-required="true">
+            <div class="form-floating mb-3">
+                <select class="form-select" name="SortTypeDescription" asp-for="@Model.FilterModel.SortTypeDescription">
                     <option value="0">Без сортировки</option>
                     <option value="1">По возрастанию</option>
                     <option value="2">По убыванию</option>
                 </select>
+                <label asp-for="@Model.FilterModel.SortTypeDescription">@Html.DisplayNameFor(model => model.FilterModel.SortTypeDescription)</label>
             </div>
 
-            <div class="card-footer mb-3">
+            <div class="card-footer mb-3 text-center">
                 <button type="submit" class="btn btn-primary btn-block">Применить</button>
             </div>
-        </form>            
-    </div>
-    <div class="col">
-        <h1 class="display-4 text-primary text-center">Типы страховок</h1>
-        <div class="d-flex justify-content-between">
-            <a class="btn btn-primary btn-block" asp-action="Create">Добавить тип страхования</a>
-            <button id="toggleFilterMenu" class="btn btn-primary btn-block">Фильтры</button>
-        </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Название
-                    </th>
-                    <th>
-                        Описание
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var insuranceType in Model.Entities) {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => insuranceType.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => insuranceType.Description)
-                        </td>
-                        <td>
-                            <a class="text-dark" asp-action="Edit" asp-route-id="@insuranceType.Id">Редактировать</a> |
-                            <a class="text-dark" asp-action="Delete" asp-route-id="@insuranceType.Id">Удалить</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-center align-items-center">
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    @for (int i = 1; i <= Model.TotalPages; i++) {
-                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = Model.PageSize })">@i</a>
-                        </li>
-                    }
-                </ul>
-            </nav>
-        </div>
+        </form>
     </div>
 </div>
 
-<script>
-    document.getElementById('toggleFilterMenu').addEventListener('click', function () {
-        var filterMenu = document.getElementById('filterMenu');
-        filterMenu.classList.toggle('hidden');
-    });
-</script>
+<h1 class="display-4 text-primary text-center">Типы страховок</h1>
+<div class="d-flex justify-content-between mb-2">
+    <a class="btn btn-primary text-decoration-none" asp-action="Create">
+        @Html.AddIcon(32, 32)
+    </a>
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+        @Html.FilterIcon(32, 32)
+    </button>
+</div>
+
+<div class="row">
+    @foreach (var insuranceType in Model.Entities) {
+        <div class="col-md-4">
+            <div class="card mb-3" style="min-height: 14rem">
+                <h3 class="card-header text-primary">@insuranceType.Name</h3>
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayNameFor(model => insuranceType.Description)</h5>
+                    <h6 class="card-subtitle text-muted">@insuranceType.Description</h6>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <a class="text-decoration-none mx-1" asp-action="Edit" asp-route-id="@insuranceType.Id">
+                        @Html.EditIcon(28, 28)
+                    </a>
+                    <a class="text-decoration-none mx-1" asp-action="Delete" asp-route-id="@insuranceType.Id">
+                        @Html.DeleteIcon(28, 28)
+                    </a>
+                    <a class="text-decoration-none mx-1" asp-action="Details" asp-route-id="@insuranceType.Id">
+                        @Html.InfoIcon(28, 28)
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="d-flex justify-content-center align-items-center">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+        @for (int i = 1; i <= Model.TotalPages; i++) {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = Model.PageSize })">@i</a>
+            </li>
+        }
+        </ul>
+    </nav>
+</div>

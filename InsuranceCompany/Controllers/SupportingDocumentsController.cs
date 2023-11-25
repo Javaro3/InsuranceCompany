@@ -15,7 +15,7 @@ namespace InsuranceCompany.Controllers {
         private readonly InsuranceCompanyCache _cache;
         private readonly InsuranceCompanyCookieManager _cookieManager;
         private readonly InsuranceCompanyFilter _filter;
-        private const int PAGE_SIZE = 12;
+        private const int PAGE_SIZE = 9;
 
         public SupportingDocumentsController(
             InsuranceCompanyContext context,
@@ -54,7 +54,6 @@ namespace InsuranceCompany.Controllers {
             if (supportingDocument == null) {
                 return NotFound();
             }
-
             supportingDocument.InsuranceCases = _cache.GetEntity<InsuranceCase>().Where(e => e.SupportingDocumentId == id).ToList();
             return View(supportingDocument);
         }
@@ -69,7 +68,7 @@ namespace InsuranceCompany.Controllers {
             if (ModelState.IsValid) {
                 _context.Add(supportingDocument);
                 await _context.SaveChangesAsync();
-                _cache.SetEntity<SupportingDocument>();
+                UpdateCache();
                 return RedirectToAction(nameof(Index));
             }
             return View(supportingDocument);
@@ -97,7 +96,7 @@ namespace InsuranceCompany.Controllers {
             if (ModelState.IsValid) {
                 try {
                     _context.Update(supportingDocument);
-                    _cache.SetEntity<SupportingDocument>();
+                    UpdateCache();
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException) {
@@ -133,8 +132,13 @@ namespace InsuranceCompany.Controllers {
             }
 
             await _context.SaveChangesAsync();
-            _cache.SetEntity<SupportingDocument>();
+            UpdateCache();
             return RedirectToAction(nameof(Index));
+        }
+
+        private void UpdateCache() {
+            _cache.SetEntity<SupportingDocument>();
+            _cache.SetEntity<InsuranceCase>();
         }
     }
 }

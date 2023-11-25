@@ -5,59 +5,63 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1 class="text-center">Редактировать</h1>
-<div class="row d-flex justify-content-center">
+<h1 class="display-4 text-primary text-center">Редактировать</h1>
+<div class="row d-flex justify-content-center mb-2">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+            <div class="form-floating mb-3">
+                <input asp-for="Name" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.Name)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.Name)" />
+                <label asp-for="Name">@Html.DisplayNameFor(model => model.Name)</label>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Surname" class="control-label"></label>
-                <input asp-for="Surname" class="form-control" />
+
+            <div class="form-floating mb-3">
+                <input asp-for="Surname" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.Surname)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.Surname)" />
+                <label asp-for="Surname">@Html.DisplayNameFor(model => model.Surname)</label>
                 <span asp-validation-for="Surname" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="MiddleName" class="control-label"></label>
-                <input asp-for="MiddleName" class="form-control" />
+
+            <div class="form-floating mb-3">
+                <input asp-for="MiddleName" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.MiddleName)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.MiddleName)" />
+                <label asp-for="MiddleName">@Html.DisplayNameFor(model => model.MiddleName)</label>
                 <span asp-validation-for="MiddleName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Birthdate" class="control-label"></label>
-                <input asp-for="Birthdate" type="date" class="form-control" />
+
+            <div class="form-floating mb-3">
+                <input asp-for="Birthdate" type="date" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.Birthdate)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.Birthdate)" />
+                <label asp-for="Birthdate">@Html.DisplayNameFor(model => model.Birthdate)</label>
                 <span asp-validation-for="Birthdate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="MobilePhone" class="control-label"></label>
-                <input asp-for="MobilePhone" id="inputPhone" class="form-control" />
+
+            <div class="form-floating mb-3">
+                <input asp-for="MobilePhone" class="form-control" id="inputPhone" autocomplete="@Html.DisplayNameFor(model => model.MobilePhone)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.MobilePhone)" />
+                <label asp-for="MobilePhone">@Html.DisplayNameFor(model => model.MobilePhone)</label>
                 <span asp-validation-for="MobilePhone" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
+
+            <div class="form-floating mb-3">
+                <input asp-for="Address" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.Address)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.Address)" />
+                <label asp-for="Address">@Html.DisplayNameFor(model => model.Address)</label>
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PassportNumber" class="control-label"></label>
-                <input asp-for="PassportNumber" id="passportNumberInput" oninput="passportValidateInput()" maxlength="9" class="form-control" />
+
+            <div class="form-floating mb-3">
+                <input asp-for="PassportNumber" class="form-control" id="passportNumberInput" oninput="passportValidateInput()" maxlength="9" autocomplete="@Html.DisplayNameFor(model => model.PassportNumber)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.PassportNumber)" />
+                <label asp-for="PassportNumber">@Html.DisplayNameFor(model => model.PassportNumber)</label>
                 <span asp-validation-for="PassportNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PassportIssueDate" class="control-label"></label>
-                <input asp-for="PassportIssueDate" type="date" class="form-control" />
+
+            <div class="form-floating mb-3">
+                <input asp-for="PassportIssueDate" type="date" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.PassportIssueDate)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.PassportIssueDate)" />
+                <label asp-for="PassportIssueDate">@Html.DisplayNameFor(model => model.PassportIssueDate)</label>
                 <span asp-validation-for="PassportIssueDate" class="text-danger"></span>
             </div>
+
             <input type="submit" value="Сохранить" class="w-100 btn btn-lg btn-primary mt-2" />
         </form>
     </div>
 </div>
-
-
-
 <script>
     function passportValidateInput() {
         const inputField = document.getElementById('passportNumberInput');

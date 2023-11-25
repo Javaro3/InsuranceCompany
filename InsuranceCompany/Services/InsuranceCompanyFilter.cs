@@ -107,6 +107,7 @@ namespace InsuranceCompany.Services {
 
         public IEnumerable<InsuranceCase> Filter(InsuranceCaseFilterModel filter) {
             var result = _cache.GetEntity<InsuranceCase>();
+            var policyClients = _cache.GetEntity<PolicyClient>();
             if (filter != null) {
                 return result
                     .Where(e => filter.SupportingDocument == null || e.SupportingDocument.Name.Contains(filter.SupportingDocument))
@@ -114,6 +115,11 @@ namespace InsuranceCompany.Services {
                     .Where(e => filter.EndDate == null || filter.EndDate >= e.Date)
                     .Where(e => filter.MinInsurancePayment == null || e.InsurancePayment >= filter.MinInsurancePayment)
                     .Where(e => filter.MaxInsurancePayment == null || e.InsurancePayment <= filter.MaxInsurancePayment)
+                    .Where(e => {
+                        if (filter.InsuranceTypeId == null || filter.InsuranceTypeId == -1) return true;
+                        return policyClients
+                            .FirstOrDefault(m => e.ClientId == m.ClientId && m.Policy.InsuranceTypeId == filter.InsuranceTypeId) != null;
+                    })
                     .Sort(filter);
             }
             return result;

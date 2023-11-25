@@ -3,25 +3,23 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav">
+<ul class="navbar-nav d-flex">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserAsync(User).Result.Name</a>
+        <a class="nav-link" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserAsync(User).Result.Name</a>
     </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Выйти</button>
-        </form>
-    </li>
+    <form class="d-flex" id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        <button id="logout" type="submit" class="btn btn-secondary my-2 my-sm-0">Выйти</button>
+    </form>
 }
 else
 {
     <li class="nav-item">
-        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Зарегистрироваться</a>
+        <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Зарегистрироваться</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Войти</a>
+        <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">Войти</a>
     </li>
 }
 </ul>

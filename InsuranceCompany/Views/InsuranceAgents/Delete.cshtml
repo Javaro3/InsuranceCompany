@@ -6,32 +6,31 @@
 }
 
 <div class="container mt-5">
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title text-primary text-center">Информация о страховом агенте</h5>
+    <div class="card mb-3">
+        <h3 class="card-header text-primary text-center">@Model.Surname @Model.Name @Model.MiddleName</h3>
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayNameFor(model => Model.AgentType.Type)</h5>
+            <h6 class="card-subtitle text-muted">@Model.AgentType.Type</h6>
+
+            <h5 class="card-title">@Html.DisplayNameFor(model => Model.Contract.Responsibilities)</h5>
+            <h6 class="card-subtitle text-muted">@Model.Contract.Responsibilities</h6>
+
+            <h5 class="card-title">@Html.DisplayNameFor(model => Model.Contract.StartDeadline)</h5>
+            <h6 class="card-subtitle text-muted">@Model.Contract.StartDeadline.ToShortDateString()</h6>
+
+            <h5 class="card-title">@Html.DisplayNameFor(model => Model.Contract.EndDeadline)</h5>
+            <h6 class="card-subtitle text-muted">@Model.Contract.EndDeadline.ToShortDateString()</h6>
+
+            <h5 class="card-title">@Html.DisplayNameFor(model => Model.Contract.Salary)</h5>
+            <h6 class="card-subtitle text-muted">@Model.Contract.Salary $</h6>
+
+            <h5 class="card-title">@Html.DisplayNameFor(model => Model.Contract.TransactionPercent)</h5>
+            <h6 class="card-subtitle text-muted">@Model.Contract.TransactionPercent</h6>
         </div>
-        <div class="card-body row d-flex align-items-center text-center">
-            <div class="col">
-                <h5 class="card-text text-primary"><strong>ФИО</strong></h5>
-                <h6 class="card-text">@Model.Surname @Model.Name @Model.MiddleName</h6>
-                <h5 class="card-text text-primary"><strong>Тип страхового агента</strong></h5>
-                <h6 class="card-text">@Model.AgentType.Type</h6>
-                <h5 class="card-text text-primary"><strong>Обязанности</strong></h5>
-                <h6 class="card-text">@Model.Contract.Responsibilities</h6>
-                <h5 class="card-text text-primary"><strong>Начало контракта</strong></h5>
-                <h6 class="card-text">@Model.Contract.StartDeadline.ToShortDateString()</h6>
-                <h5 class="card-text text-primary"><strong>Конец контракта</strong></h5>
-                <h6 class="card-text">@Model.Contract.EndDeadline.ToShortDateString()</h6>
-                <h5 class="card-text text-primary"><strong>Зарплата</strong></h5>
-                <h6 class="card-text">@Model.Contract.Salary $</h6>
-                <h5 class="card-text text-primary"><strong>Процент от сделки</strong></h5>
-                <h6 class="card-text">@Model.Contract.TransactionPercent</h6>
-            </div>
-        </div>
-        <div class="mb-3 d-flex justify-content-center">
+        <div class="card-footer d-flex justify-content-start">
             <form asp-action="Delete">
                 <input type="hidden" asp-for="Id" />
-                <input type="submit" value="Удалить" class="btn btn-danger" /> |
+                <input type="submit" value="Удалить" class="btn btn-danger" />
                 <a asp-controller="InsuranceAgents" asp-action="Index" class="btn btn-primary">Отменить</a>
             </form>
         </div>

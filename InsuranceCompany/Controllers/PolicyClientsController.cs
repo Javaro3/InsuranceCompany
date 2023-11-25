@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace InsuranceCompany.Controllers {
     [Authorize(Roles = "Клиент")]
@@ -33,7 +32,7 @@ namespace InsuranceCompany.Controllers {
         }
 
         public async Task<IActionResult> Index(int page, int pageSize = PAGE_SIZE) {
-            var policyFilter = _cookieManager.GetCookie<PolicyFilterModel>(HttpContext.Request.Cookies, "Client");
+            var policyFilter = _cookieManager.GetCookie<PolicyFilterModel>(HttpContext.Request.Cookies, "client");
             policyFilter.InsuranceAgentList = GetInsuranceAgentsList();
             policyFilter.InsuranceTypeList = GetInsuranceTypesList();
             var client = GetClient();
@@ -45,7 +44,7 @@ namespace InsuranceCompany.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Index(PolicyFilterModel policyFilter, int page, int pageSize = PAGE_SIZE) {
-            _cookieManager.SetCookie(policyFilter, HttpContext.Response.Cookies, "Client");
+            _cookieManager.SetCookie(policyFilter, HttpContext.Response.Cookies, "client");
             policyFilter.InsuranceAgentList = GetInsuranceAgentsList();
             policyFilter.InsuranceTypeList = GetInsuranceTypesList();
             var client = GetClient();
@@ -55,22 +54,78 @@ namespace InsuranceCompany.Controllers {
             return View(viewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id) {
-            if(id == null) {
-                return NotFound();
-            }
-            var policy = _cache.GetEntity<Policy>().FirstOrDefault(e => e.Id == id);
-            var client = GetClient();
-            if(policy == null) {
+        public async Task<IActionResult> Details(int? id) {
+            if (id == null) {
                 return NotFound();
             }
 
-            _context.Add(new PolicyClient() { ClientId = client.Id, PolicyId = policy.Id});
+            var policy = _cache.GetEntity<Policy>().FirstOrDefault(m => m.Id == id);
+            if (policy == null) {
+                return NotFound();
+            }
+
+            return View(policy);
+        }
+
+        public async Task<IActionResult> Create(int page, int pageSize = PAGE_SIZE) {
+            var policyFilter = _cookieManager.GetCookie<PolicyFilterModel>(HttpContext.Request.Cookies, "client");
+            policyFilter.InsuranceAgentList = GetInsuranceAgentsList();
+            policyFilter.InsuranceTypeList = GetInsuranceTypesList();
+            var policies = _filter.Filter(policyFilter);
+            var viewModel = new PageModel<Policy, PolicyFilterModel>(page, pageSize, policies, policyFilter);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(PolicyFilterModel policyFilter, int page, int pageSize = PAGE_SIZE) {
+            _cookieManager.SetCookie(policyFilter, HttpContext.Response.Cookies, "client");
+            policyFilter.InsuranceAgentList = GetInsuranceAgentsList();
+            policyFilter.InsuranceTypeList = GetInsuranceTypesList();
+            var policies = _filter.Filter(policyFilter);
+            var viewModel = new PageModel<Policy, PolicyFilterModel>(page, pageSize, policies, policyFilter);
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> Add(int? id) {
+            if (id == null) {
+                return NotFound();
+            }
+
+            var policy = _cache.GetEntity<Policy>().FirstOrDefault(e => e.Id == id);
+            if (policy == null) {
+                return NotFound();
+            }
+
+            return View(policy);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(int id) {
+            var policy = _cache.GetEntity<Policy>().FirstOrDefault(e => e.Id == id);
+            var client = GetClient();
+            if (policy == null) {
+                return NotFound();
+            }
+
+            _context.Add(new PolicyClient() { ClientId = client.Id, PolicyId = policy.Id });
             await _context.SaveChangesAsync();
             _cache.SetEntity<PolicyClient>();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int? id) {
+            if (id == null) {
+                return NotFound();
+            }
+
+            var policy = _cache.GetEntity<Policy>().FirstOrDefault(m => m.Id == id);
+            if (policy == null) {
+                return NotFound();
+            }
+
+            return View(policy);
         }
 
         [HttpPost]

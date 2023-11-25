@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "lH7L283vmT0QRxfr6Y0XFctX0mrz5xx7Ud9S4jxrHM8=",
+  "Hash": "VVN6nbQHISwQY0q+gJZ/ChYoyQsonlZpXwKoTRCof0c=",
   "Source": "InsuranceCompany",
   "BasePath": "_content/InsuranceCompany",
   "Mode": "Default",
@@ -1069,6 +1069,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\InsuranceCompany\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\InsuranceCompany.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\InsuranceCompany\\wwwroot\\css\\bootstrapWatch.css",
+      "SourceId": "InsuranceCompany",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\InsuranceCompany\\wwwroot\\",
+      "BasePath": "_content/InsuranceCompany",
+      "RelativePath": "css/bootstrapWatch.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\bootstrapWatch.css"
     },
     {
       "Identity": "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\InsuranceCompany\\wwwroot\\css\\site.css",

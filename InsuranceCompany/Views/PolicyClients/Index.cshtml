@@ -1,135 +1,150 @@
-﻿@using InsuranceCompany.ViewModels;
+﻿@using InsuranceCompany.Utilities;
+@using InsuranceCompany.ViewModels;
 @model PageModel<Policy, PolicyFilterModel>;
 
 @{
     ViewData["Title"] = "Полисы";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    .hidden {
-        display: none;
-        opacity: 0;
-        transition: opacity 0.3s ease-out;
-    }
-</style>
-<div class="row">
-    <div id="filterMenu" class="card col-sm-3 hidden">
-        <div class="card-header">
-            <h5 class="text-primary text-center">Фильтры</h5>
-        </div>
-        <form asp-action="Index" method="post">
-            <div class="form-group mb-3">
-                <label class="form-label">Номер полиса</label>
-                <input asp-for="@Model.FilterModel.PolicyNumber" name="PolicyNumber" class="form-control" />
+
+
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Фильтры</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form asp-action="Index">
+            <div class="form-floating mb-3">
+                <input name="PolicyNumber" asp-for="@Model.FilterModel.PolicyNumber" class="form-control" placeholder="@Html.DisplayNameFor(model => model.FilterModel.PolicyNumber)" />
+                <label asp-for="@Model.FilterModel.PolicyNumber">@Html.DisplayNameFor(model => model.FilterModel.PolicyNumber)</label>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="form-label">Начало действия полиса</label>
-                <input asp-for="@Model.FilterModel.ApplicationDateStart" type="date" name="ApplicationDateStart" class="form-control" />
+            <div class="form-floating mb-3">
+                <input name="ApplicationDateStart" type="date" asp-for="@Model.FilterModel.ApplicationDateStart" class="form-control" placeholder="@Html.DisplayNameFor(model => model.FilterModel.ApplicationDateStart)" />
+                <label asp-for="@Model.FilterModel.ApplicationDateStart">@Html.DisplayNameFor(model => model.FilterModel.ApplicationDateStart)</label>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="form-label">Конец действия полиса </label>
-                <input asp-for="@Model.FilterModel.ApplicationDateEnd" type="date" name="ApplicationDateEnd" class="form-control" />
+            <div class="form-floating mb-3">
+                <input name="ApplicationDateEnd" type="date" asp-for="@Model.FilterModel.ApplicationDateEnd" class="form-control" placeholder="@Html.DisplayNameFor(model => model.FilterModel.ApplicationDateEnd)" />
+                <label asp-for="@Model.FilterModel.ApplicationDateEnd">@Html.DisplayNameFor(model => model.FilterModel.ApplicationDateEnd)</label>
             </div>
 
-            <div class="form-group mb-3">
-                Страховая выплата (от и до)
-                <input class="form-control" asp-for="@Model.FilterModel.MinPolicyPayment" type="number" name="MinPolicyPayment" value="@Model.FilterModel.MinPolicyPayment" class="form-control" />
-                <input class="form-control" asp-for="@Model.FilterModel.MaxPolicyPayment" type="number" name="MaxPolicyPayment" value="@Model.FilterModel.MaxPolicyPayment" class="form-control" />
+            <div class="form-floating mb-3">
+                <input name="MinPolicyPayment" type="number" step="any" asp-for="@Model.FilterModel.MinPolicyPayment" class="form-control" placeholder="@Html.DisplayNameFor(model => model.FilterModel.MinPolicyPayment)" />
+                <label asp-for="@Model.FilterModel.MinPolicyPayment">@Html.DisplayNameFor(model => model.FilterModel.MinPolicyPayment)</label>
             </div>
 
-            <div class="form-group mb-3">
-                Страховой агент
-                <select asp-for="@Model.FilterModel.InsuranceAgentId" name="InsuranceAgentId" asp-items="@Model.FilterModel.InsuranceAgentList" class="form-select" aria-required="true">
+            <div class="form-floating mb-3">
+                <input name="MaxPolicyPayment" type="number" step="any" asp-for="@Model.FilterModel.MaxPolicyPayment" class="form-control" placeholder="@Html.DisplayNameFor(model => model.FilterModel.MaxPolicyPayment)" />
+                <label asp-for="@Model.FilterModel.MaxPolicyPayment">@Html.DisplayNameFor(model => model.FilterModel.MaxPolicyPayment)</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" name="InsuranceTypeId" asp-for="@Model.FilterModel.InsuranceTypeId" asp-items="@Model.FilterModel.InsuranceTypeList">
                     <option value="-1">Все</option>
                 </select>
+                <label asp-for="@Model.FilterModel.InsuranceTypeId">@Html.DisplayNameFor(model => model.FilterModel.InsuranceTypeId)</label>
             </div>
 
-            <div class="form-group mb-3">
-                Тип страхования
-                <select asp-items="@Model.FilterModel.InsuranceTypeList" name="InsuranceTypeId" asp-for="@Model.FilterModel.InsuranceTypeId" class="form-select" aria-required="true">
+            <div class="form-floating mb-3">
+                <select class="form-select" name="InsuranceAgentId" asp-for="@Model.FilterModel.InsuranceAgentId" asp-items="@Model.FilterModel.InsuranceAgentList">
                     <option value="-1">Все</option>
                 </select>
+                <label asp-for="@Model.FilterModel.InsuranceAgentId">@Html.DisplayNameFor(model => model.FilterModel.InsuranceAgentId)</label>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="form-label">Только действующие полисы </label>
-                <input asp-for="@Model.FilterModel.PolicyIsActing" type="checkbox" name="PolicyIsActing" class="form-check-input" />
+            <div class="form-check form-switch mb-3">
+                <input name="PolicyIsActing" type="checkbox" asp-for="@Model.FilterModel.PolicyIsActing" class="form-check-input" placeholder="@Html.DisplayNameFor(model => model.FilterModel.PolicyIsActing)" />
+                <label asp-for="@Model.FilterModel.PolicyIsActing" class="form-check-label">@Html.DisplayNameFor(model => model.FilterModel.PolicyIsActing)</label>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="control-label">Сортировка по страховой выплате</label>
-                <select name="SortTypePolicyPaymen" asp-for="@Model.FilterModel.SortTypePolicyPaymen" class="form-select" aria-required="true">
+            <div class="form-floating mb-3">
+                <select class="form-select" name="SortTypePolicyPaymen" asp-for="@Model.FilterModel.SortTypePolicyPaymen">
                     <option value="0">Без сортировки</option>
                     <option value="1">По возрастанию</option>
                     <option value="2">По убыванию</option>
                 </select>
+                <label asp-for="@Model.FilterModel.SortTypePolicyPaymen">@Html.DisplayNameFor(model => model.FilterModel.SortTypePolicyPaymen)</label>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="control-label">Сортировка по продолжительности</label>
-                <select name="SortTypePolicyTerm" asp-for="@Model.FilterModel.SortTypePolicyTerm" class="form-select" aria-required="true">
+            <div class="form-floating mb-3">
+                <select class="form-select" name="SortTypeApplicationDate" asp-for="@Model.FilterModel.SortTypeApplicationDate">
                     <option value="0">Без сортировки</option>
                     <option value="1">По возрастанию</option>
                     <option value="2">По убыванию</option>
                 </select>
+                <label asp-for="@Model.FilterModel.SortTypeApplicationDate">@Html.DisplayNameFor(model => model.FilterModel.SortTypeApplicationDate)</label>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="control-label">Сортировка по дате начала полиса</label>
-                <select name="SortTypeApplicationDate" asp-for="@Model.FilterModel.SortTypeApplicationDate" class="form-select" aria-required="true">
+            <div class="form-floating mb-3">
+                <select class="form-select" name="SortTypePolicyTerm" asp-for="@Model.FilterModel.SortTypePolicyTerm">
                     <option value="0">Без сортировки</option>
                     <option value="1">По возрастанию</option>
                     <option value="2">По убыванию</option>
                 </select>
+                <label asp-for="@Model.FilterModel.SortTypePolicyTerm">@Html.DisplayNameFor(model => model.FilterModel.SortTypePolicyTerm)</label>
             </div>
 
-            <div class="card-footer">
+            <div class="card-footer mb-3 text-center">
                 <button type="submit" class="btn btn-primary btn-block">Применить</button>
             </div>
         </form>
     </div>
-    <div class="col">
-        <h1 class="display-4 text-primary text-center">Полисы</h1>
-        <div class="d-flex justify-content-between mb-2">
-            <a class="btn btn-primary btn-block " asp-controller="Policies" asp-action="Index">Оформить полис</a>
-            <button id="toggleFilterMenu" class="btn btn-primary btn-block">Фильтры</button>
-        </div>
-        <div class="row">
-            @foreach (var policy in Model.Entities) {
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <div class="card-body">
-                            <h5 class="card-title text-center text-primary">Номер полиса: @policy.PolicyNumber</h5>
-                            <p class="card-text"><strong>Страховой агент:</strong> @policy.InsuranceAgent.Surname @policy.InsuranceAgent.Name @policy.InsuranceAgent.MiddleName</p>
-                            <p class="card-text"><strong>Начало действия полиса:</strong> @policy.ApplicationDate.ToShortDateString()</p>
-                            <p class="card-text"><strong>Тип страхования:</strong> @policy.InsuranceType.Name</p>
-                            <p class="card-text"><strong>Срок действия полиса:</strong> @policy.PolicyTerm мес.</p>
-                            <p class="card-text"><strong>Страховая выплата:</strong> @policy.PolicyPayment $</p>
-                            <a class="text-dark" asp-controller="Policies" asp-action="Details" asp-route-id="@policy.Id">Детали</a>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-        <div class="d-flex justify-content-center align-items-center">
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    @for (int i = 1; i <= Model.TotalPages; i++) {
-                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = Model.PageSize })">@i</a>
-                        </li>
-                    }
-                </ul>
-            </nav>
-        </div>
-    </div>
 </div>
 
-<script>
-    document.getElementById('toggleFilterMenu').addEventListener('click', function () {
-        var filterMenu = document.getElementById('filterMenu');
-        filterMenu.classList.toggle('hidden');
-    });
-</script>
+<h1 class="display-4 text-primary text-center">Полисы</h1>
+<div class="d-flex justify-content-between mb-2">
+    <a class="btn btn-primary text-decoration-none" asp-action="Create">
+        @Html.AddIcon(32, 32)
+    </a>
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+        @Html.FilterIcon(32, 32)
+    </button>
+</div>
+
+<div class="row">
+    @foreach (var policy in Model.Entities) {
+        <div class="col-md-4">
+            <div class="card mb-3" style="min-height: 18rem">
+                <h3 class="card-header text-primary">@policy.PolicyNumber</h3>
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayNameFor(model => policy.PolicyPayment)</h5>
+                    <h6 class="card-subtitle text-muted">@policy.PolicyPayment $</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => policy.ApplicationDate)</h5>
+                    <h6 class="card-subtitle text-muted">@policy.ApplicationDate.ToShortDateString()</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => policy.PolicyTerm)</h5>
+                    <h6 class="card-subtitle text-muted">@policy.PolicyTerm мес.</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => policy.InsuranceType.Name)</h5>
+                    <h6 class="card-subtitle text-muted">@policy.InsuranceType.Name</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => policy.InsuranceAgentId)</h5>
+                    <h6 class="card-subtitle text-muted">@policy.InsuranceAgent.Surname @policy.InsuranceAgent.Name @policy.InsuranceAgent.MiddleName</h6>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <a class="text-decoration-none mx-1" asp-action="Delete" asp-route-id="@policy.Id">
+                        @Html.DeleteIcon(28, 28)
+                    </a>
+                    <a class="text-decoration-none mx-1" asp-action="Details" asp-route-id="@policy.Id">
+                        @Html.InfoIcon(28, 28)
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="d-flex justify-content-center align-items-center">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            @for (int i = 1; i <= Model.TotalPages; i++) {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = Model.PageSize })">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

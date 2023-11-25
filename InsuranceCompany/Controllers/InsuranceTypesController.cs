@@ -6,7 +6,6 @@ using InsuranceCompany.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace InsuranceCompany.Controllers {
     [Authorize(Roles = "Страховой агент")]
@@ -15,7 +14,7 @@ namespace InsuranceCompany.Controllers {
         private readonly InsuranceCompanyCache _cache;
         private readonly InsuranceCompanyCookieManager _cookieManager;
         private readonly InsuranceCompanyFilter _filter;
-        private const int PAGE_SIZE = 10;
+        private const int PAGE_SIZE = 9;
 
         public InsuranceTypesController(
             InsuranceCompanyContext context,
@@ -55,10 +54,24 @@ namespace InsuranceCompany.Controllers {
             if (ModelState.IsValid) {
                 _context.Add(insuranceType);
                 await _context.SaveChangesAsync();
-                _cache.SetEntity<InsuranceType>();
+                UpdateCache();
                 return RedirectToAction(nameof(Index));
             }
             return View(insuranceType);
+        }
+
+        public async Task<IActionResult> Details(int? id) {
+            if (id == null) {
+                return NotFound();
+            }
+
+            var insuranceTypes = _cache.GetEntity<InsuranceType>().FirstOrDefault(m => m.Id == id);
+            if (insuranceTypes == null) {
+                return NotFound();
+            }
+
+            insuranceTypes.Policies = _cache.GetEntity<Policy>().Where(e => e.InsuranceTypeId == id).ToList();
+            return View(insuranceTypes);
         }
 
         public async Task<IActionResult> Edit(int? id) {
@@ -84,7 +97,7 @@ namespace InsuranceCompany.Controllers {
                 try {
                     _context.Update(insuranceType);
                     await _context.SaveChangesAsync();
-                    _cache.SetEntity<InsuranceType>();
+                    UpdateCache();
                 }
                 catch (DbUpdateConcurrencyException) {
                     return NotFound();
@@ -116,8 +129,14 @@ namespace InsuranceCompany.Controllers {
             }
 
             await _context.SaveChangesAsync();
-            _cache.SetEntity<InsuranceType>();
+            UpdateCache();
             return RedirectToAction(nameof(Index));
+        }
+
+        private void UpdateCache() {
+            _cache.SetEntity<InsuranceType>();
+            _cache.SetEntity<Policy>();
+            _cache.SetEntity<PolicyClient>();
         }
     }
 }
