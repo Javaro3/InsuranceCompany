@@ -41,7 +41,7 @@ namespace InsuranceCompany.Areas.Identity.Pages.Account {
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            var userName = DbConverter.GetTranslator($"{Input.Name.Trim()}_{Input.Surname.Trim()}_{Input.MiddleName.Trim()}");
+            var userName = $"{Input.Name.Trim()} {Input.Surname.Trim()} {Input.MiddleName.Trim()}";
 
             if (ModelState.IsValid) {
                 var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, false, lockoutOnFailure: false);

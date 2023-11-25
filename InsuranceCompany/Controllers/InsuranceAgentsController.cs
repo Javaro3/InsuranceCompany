@@ -87,8 +87,8 @@ namespace InsuranceCompany.Controllers {
                 try {
                     var oldInsuranceAgent = _cache.GetEntity<InsuranceAgent>().FirstOrDefault(e => e.Id == id);
 
-                    var oldUserName = DbConverter.GetUserNameTranslator(oldInsuranceAgent);
-                    var newUserName = DbConverter.GetUserNameTranslator(insuranceAgent);
+                    var oldUserName = $"{oldInsuranceAgent.Name} {oldInsuranceAgent.Surname} {oldInsuranceAgent.MiddleName}";
+                    var newUserName = $"{insuranceAgent.Name} {insuranceAgent.Surname} {insuranceAgent.MiddleName}";
 
                     var applicationUser = _userManager.Users.FirstOrDefault(e => e.UserName == oldUserName);
                     applicationUser.Name = insuranceAgent.Name;
@@ -131,7 +131,7 @@ namespace InsuranceCompany.Controllers {
             var insuranceAgent = _cache.GetEntity<InsuranceAgent>().FirstOrDefault(m => m.Id == id);
             if (insuranceAgent != null) {
                 _context.InsuranceAgents.Remove(insuranceAgent);
-                var userName = DbConverter.GetUserNameTranslator(insuranceAgent);
+                var userName = $"{insuranceAgent.Name} {insuranceAgent.Surname} {insuranceAgent.MiddleName}";
                 var applicationUser = _userManager.Users.FirstOrDefault(e => e.UserName == userName);
                 await _userManager.DeleteAsync(applicationUser);
             }

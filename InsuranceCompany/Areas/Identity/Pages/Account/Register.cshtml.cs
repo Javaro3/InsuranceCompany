@@ -15,18 +15,21 @@ namespace InsuranceCompany.Areas.Identity.Pages.Account {
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly InsuranceCompanyContext _db;
+        private readonly InsuranceCompanyCache _cache;
         
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
-            InsuranceCompanyContext db) {
+            InsuranceCompanyContext db,
+            InsuranceCompanyCache cache) {
             _userManager = userManager;
             _userStore = userStore;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _db = db;
+            _cache = cache;
         }
 
         [BindProperty]
@@ -56,7 +59,7 @@ namespace InsuranceCompany.Areas.Identity.Pages.Account {
 
             if ((Input.Role == "Клиент" && ModelState.ErrorCount <= 2) || (Input.Role == "Страховой агент" && ModelState.ErrorCount <= 3)) {
                 var user = CreateUser();
-                var userName = DbConverter.GetTranslator($"{Input.Name.Trim()}_{Input.Surname.Trim()}_{Input.MiddleName.Trim()}");
+                var userName = $"{Input.Name.Trim()} {Input.Surname.Trim()} {Input.MiddleName.Trim()}";
 
                 await _userStore.SetUserNameAsync(user, userName, CancellationToken.None);
 
@@ -75,6 +78,9 @@ namespace InsuranceCompany.Areas.Identity.Pages.Account {
 
                     _db.SaveChanges();
 
+                    if (Input.Role == "Клиент") _cache.SetEntity<Client>();
+                    else _cache.SetEntity<InsuranceAgent>();
+                    
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }

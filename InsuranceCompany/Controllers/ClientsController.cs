@@ -89,8 +89,8 @@ namespace InsuranceCompany.Controllers {
                 try {
                     var oldClient = _cache.GetEntity<Client>().FirstOrDefault(e => e.Id == id);
 
-                    var oldUserName = DbConverter.GetUserNameTranslator(oldClient);
-                    var newUserName = DbConverter.GetUserNameTranslator(client);
+                    var oldUserName = $"{oldClient.Name} {oldClient.Surname} {oldClient.MiddleName}";
+                    var newUserName = $"{client.Name} {client.Surname} {client.MiddleName}";
 
                     var applicationUser = _userManager.Users.FirstOrDefault(e => e.UserName == oldUserName);
                     applicationUser.Name = client.Name;
@@ -132,7 +132,7 @@ namespace InsuranceCompany.Controllers {
             var client = _cache.GetEntity<Client>().FirstOrDefault(m => m.Id == id);
             if (client != null) {
                 _context.Clients.Remove(client);
-                var userName = DbConverter.GetUserNameTranslator(client);
+                var userName = $"{client.Name} {client.Surname} {client.MiddleName}";
                 var applicationUser = _userManager.Users.FirstOrDefault(e => e.UserName == userName);
                 await _userManager.DeleteAsync(applicationUser);
             }

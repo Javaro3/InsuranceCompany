@@ -17,7 +17,7 @@ builder.Services.AddSession();
 
 builder.Services
     .AddDefaultIdentity<ApplicationUser>(options => 
-        options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+=\\/?!"
+        options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+=\\/?! אבגדהו¸זחטיךכלםמןנסעףפץצקרשתûü‎‏ÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞ‗"
     )
     .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()

@@ -1,12 +1,11 @@
-﻿using InsuranceCompany.Data.Utilities;
-using InsuranceCompany.Models;
+﻿using InsuranceCompany.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace InsuranceCompany.Data.DbInitializer {
     public static class InsuranceCompanyInitializer {
         private static Random rand = new();
-        
+
         public static void Initialize(InsuranceCompanyContext db, InsuranceCompanyIdentityContext identityDb, UserManager<ApplicationUser> userManager) {
             if (!db.Database.CanConnect()) {
                 db.Database.Migrate();
@@ -113,7 +112,7 @@ namespace InsuranceCompany.Data.DbInitializer {
                 string passportNumber = rand.NextPassportNumber();
                 var passportIssueDate = rand.NextDate(2000, 2023);
                 string password = $"Client{i}!";
-                var userName = DbConverter.GetTranslator($"{name}_{surname}_{middleName}");
+                var userName = $"{name} {surname} {middleName}";
 
                 var applicationUser = new ApplicationUser() {
                     UserName = userName,
@@ -184,12 +183,12 @@ namespace InsuranceCompany.Data.DbInitializer {
                 double transactionPercent = rand.NextDouble();
 
                 db.Add(new Contract() {
-                        Responsibilities = responsibilities,
-                        StartDeadline = startDeadline,
-                        EndDeadline = endDeadline,
-                        Salary = salary,
-                        TransactionPercent = transactionPercent
-                    });
+                    Responsibilities = responsibilities,
+                    StartDeadline = startDeadline,
+                    EndDeadline = endDeadline,
+                    Salary = salary,
+                    TransactionPercent = transactionPercent
+                });
             }
             db.SaveChanges();
         }
@@ -202,7 +201,7 @@ namespace InsuranceCompany.Data.DbInitializer {
                 int agentTypeId = rand.Next(1, InitializeData.AgentTypes.Count + 1);
                 int contractId = rand.Next(1, 101);
                 string password = $"InsuranceAgent{i}!";
-                var userName = DbConverter.GetTranslator($"{name}_{surname}_{middleName}");
+                var userName = $"{name} {surname} {middleName}";
 
                 var applicationUser = new ApplicationUser() {
                     UserName = userName,
