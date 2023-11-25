@@ -6,9 +6,15 @@
 <ul class="navbar-nav d-flex">
 @if (SignInManager.IsSignedIn(User))
 {
+    var role = @UserManager.GetRolesAsync(@UserManager.GetUserAsync(User).Result).Result[0];
     <li class="nav-item">
-        <a class="nav-link" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserAsync(User).Result.Name</a>
-    </li>
+            @if(role == "Клиент") {
+                <a class="nav-link" id="manage" asp-controller="ClientManager" asp-action="Index" title="Manage">@UserManager.GetUserAsync(User).Result.Name</a>
+            }
+            else {
+                <a class="nav-link" id="manage" asp-controller="InsuranceAgentManager" asp-action="Index" title="Manage">@UserManager.GetUserAsync(User).Result.Name</a>
+            }
+        </li>
     <form class="d-flex" id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
         <button id="logout" type="submit" class="btn btn-secondary my-2 my-sm-0">Выйти</button>
     </form>

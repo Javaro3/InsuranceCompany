@@ -1,0 +1,221 @@
+﻿@using InsuranceCompany.Utilities;
+@using InsuranceCompany.ViewModels;
+@model ValueTuple<InsuranceAgent, IEnumerable<Client>>
+@{
+    ViewData["Title"] = "Главная страницы";
+    var Input = new ChangePasswordViewModel();
+}
+
+<h1 class="display-4 text-primary text-center">@Model.Item1.Surname @Model.Item1.Name @Model.Item1.MiddleName</h1>
+
+
+<div class="container mt-5">
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="card-body row d-flex align-items-center">
+                <div class="col">
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.Item1.AgentType.Type)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Item1.AgentType.Type</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.Item1.Contract.Responsibilities)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Item1.Contract.Responsibilities</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.Item1.Contract.StartDeadline)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Item1.Contract.StartDeadline.ToShortDateString()</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.Item1.Contract.EndDeadline)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Item1.Contract.EndDeadline.ToShortDateString()</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.Item1.Contract.Salary)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Item1.Contract.Salary $</h6>
+
+                    <h5 class="card-title">@Html.DisplayNameFor(model => Model.Item1.Contract.TransactionPercent)</h5>
+                    <h6 class="card-subtitle text-muted">@Model.Item1.Contract.TransactionPercent</h6>
+                </div>
+                <div class="col">
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                    Список полисов
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    @if (Model.Item1.Policies.Count() > 0) {
+                                        <div class="overflow-auto" style="height: 250px;">
+                                            @foreach (var policy in Model.Item1.Policies) {
+                                                <div class="card mb-3">
+                                                    <h3 class="card-header text-primary">@policy.PolicyNumber</h3>
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">@Html.DisplayNameFor(model => policy.PolicyPayment)</h5>
+                                                        <h6 class="card-subtitle text-muted">@policy.PolicyPayment $</h6>
+
+                                                        <h5 class="card-title">@Html.DisplayNameFor(model => policy.ApplicationDate)</h5>
+                                                        <h6 class="card-subtitle text-muted">@policy.ApplicationDate.ToShortDateString()</h6>
+
+                                                        <h5 class="card-title">@Html.DisplayNameFor(model => policy.PolicyTerm)</h5>
+                                                        <h6 class="card-subtitle text-muted">@policy.PolicyTerm мес.</h6>
+
+                                                        <h5 class="card-title">@Html.DisplayNameFor(model => policy.InsuranceType.Name)</h5>
+                                                        <h6 class="card-subtitle text-muted">@policy.InsuranceType.Name</h6>
+
+                                                        <h5 class="card-title">@Html.DisplayNameFor(model => policy.InsuranceAgentId)</h5>
+                                                        <h6 class="card-subtitle text-muted">@policy.InsuranceAgent.Surname @policy.InsuranceAgent.Name @policy.InsuranceAgent.MiddleName</h6>
+                                                    </div>
+                                                    <div class="card-footer d-flex justify-content-end">
+                                                        <a class="text-decoration-none mx-1" asp-action="Edit" asp-controller="Policies" asp-route-id="@policy.Id">
+                                                            @Html.EditIcon(28, 28)
+                                                        </a>
+                                                        <a class="text-decoration-none mx-1" asp-action="Delete" asp-controller="Policies" asp-route-id="@policy.Id">
+                                                            @Html.DeleteIcon(28, 28)
+                                                        </a>
+                                                        <a class="text-decoration-none mx-1" asp-action="Details" asp-controller="Policies" asp-route-id="@policy.Id">
+                                                            @Html.InfoIcon(28, 28)
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                    else {
+                                        <h3 class="card-header text-primary text-center">Полисов нет</h3>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card mb-3 col mx-3">
+            <div class="card-body">
+                <h3 class="card-header text-primary text-center">Редактироват</h3>
+                <form asp-action="Edit">
+                    <div class="card-body row d-flex justify-content-center mb-2">
+                        <div class="mt-3">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-floating mb-3">
+                                <input name="Name" asp-for="Item1.Name" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.Item1.Name)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.Item1.Name)" />
+                                <label asp-for="Item1.Name">@Html.DisplayNameFor(model => model.Item1.Name)</label>
+                                <span asp-validation-for="Item1.Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input name="Surname" asp-for="Item1.Surname" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.Item1.Surname)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.Item1.Surname)" />
+                                <label asp-for="Item1.Surname">@Html.DisplayNameFor(model => model.Item1.Surname)</label>
+                                <span asp-validation-for="Item1.Surname" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input name="MiddleName" asp-for="Item1.MiddleName" class="form-control" autocomplete="@Html.DisplayNameFor(model => model.Item1.MiddleName)" aria-required="true" placeholder="@Html.DisplayNameFor(model => model.Item1.MiddleName)" />
+                                <label asp-for="Item1.MiddleName">@Html.DisplayNameFor(model => model.Item1.MiddleName)</label>
+                                <span asp-validation-for="Item1.MiddleName" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select name="AgentTypeId" asp-for="Item1.AgentTypeId" class="form-control" asp-items="ViewBag.AgentTypeId"></select>
+                                <label asp-for="Item1.AgentTypeId">@Html.DisplayNameFor(model => model.Item1.AgentTypeId)</label>
+                                <span asp-validation-for="Item1.AgentTypeId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select name="ContractId" asp-for="Item1.ContractId" class="form-control" asp-items="ViewBag.ContractId"></select>
+                                <label asp-for="Item1.ContractId">@Html.DisplayNameFor(model => model.Item1.ContractId)</label>
+                                <span asp-validation-for="Item1.ContractId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                        <input type="submit" value="Сохранить" class="btn btn-lg btn-primary mt-2" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-3 mx-3">
+                <div class="card-body mx-2">
+                    <h3 class="card-header text-primary text-center">Смена пароля</h3>
+                    <form asp-action="ChangePassword">
+                        <div class="card-body row d-flex justify-content-center mb-2">
+                            <div class="mt-3">
+                                <div class="form-floating mb-3">
+                                    <input name="OldPassword" asp-for="@Input.OldPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                                    <label asp-for="@Input.OldPassword">@Html.DisplayNameFor(model => Input.OldPassword)</label>
+                                    <span asp-validation-for="@Input.OldPassword" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input name="NewPassword" asp-for="@Input.NewPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                                    <label asp-for="@Input.NewPassword">@Html.DisplayNameFor(model => Input.NewPassword)</label>
+                                    <span asp-validation-for="@Input.NewPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-center">
+                            <input type="submit" value="Сохранить" class="btn btn-lg btn-primary mt-2" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Список клиентов
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            @if (Model.Item2.Count() > 0) {
+                                <div class="overflow-auto" style="height: 300px;">
+                                    @foreach (var client in Model.Item2) {
+                                        <div class="card mb-3">
+                                            <h3 class="card-header text-primary">@client.Surname @client.Name @client.MiddleName</h3>
+                                            <div class="card-body">
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => client.Birthdate)</h5>
+                                                <h6 class="card-subtitle text-muted">@client.Birthdate.ToShortDateString()</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => client.MobilePhone)</h5>
+                                                <h6 class="card-subtitle text-muted">@client.MobilePhone</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => client.Address)</h5>
+                                                <h6 class="card-subtitle text-muted">@client.Address</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => client.PassportNumber)</h5>
+                                                <h6 class="card-subtitle text-muted">@client.PassportNumber</h6>
+
+                                                <h5 class="card-title">@Html.DisplayNameFor(model => client.PassportIssueDate)</h5>
+                                                <h6 class="card-subtitle text-muted">@client.PassportIssueDate.ToShortDateString()</h6>
+                                            </div>
+                                            <div class="card-footer d-flex justify-content-end">
+                                                <a class="text-decoration-none mx-1" asp-action="Edit" asp-controller="Clients" asp-route-id="@client.Id">
+                                                    @Html.EditIcon(28, 28)
+                                                </a>
+                                                <a class="text-decoration-none mx-1" asp-action="Delete" asp-controller="Clients" asp-route-id="@client.Id">
+                                                    @Html.DeleteIcon(28, 28)
+                                                </a>
+                                                <a class="text-decoration-none mx-1" asp-action="Details" asp-controller="Clients" asp-route-id="@client.Id">
+                                                    @Html.InfoIcon(28, 28)
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else {
+                                <h3 class="card-header text-primary text-center">Клиентов нет</h3>
+                            }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,27 +1,24 @@
-﻿using InsuranceCompany.Data;
-using InsuranceCompany.Data.Utilities;
+﻿using InsuranceCompany.Data.Utilities;
 using InsuranceCompany.Models;
 using InsuranceCompany.Services;
 using InsuranceCompany.ViewModels;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace InsuranceCompany.Controllers {
+    [Authorize(Roles = "Страховой агент")]
     public class InsuranceCasesController : Controller {
-        private readonly InsuranceCompanyContext _context;
         private readonly InsuranceCompanyCache _cache;
         private readonly InsuranceCompanyCookieManager _cookieManager;
         private readonly InsuranceCompanyFilter _filter;
         private const int PAGE_SIZE = 9;
 
         public InsuranceCasesController(
-            InsuranceCompanyContext context,
             InsuranceCompanyCache cache,
             InsuranceCompanyCookieManager cookieManager,
             InsuranceCompanyFilter filter) {
-            _context = context;
             _cache = cache;
             _cookieManager = cookieManager;
             _filter = filter;

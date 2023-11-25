@@ -24,18 +24,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/GSTU/3course5semester/DB/CursovoiProect/InsuranceCompany/InsuranceCompany/Areas/Identity/Pages/Account/Manage/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX0xheW91dC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/GSTU/3course5semester/DB/CursovoiProect/InsuranceCompany/InsuranceCompany/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX01hbmFnZU5hdi5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/GSTU/3course5semester/DB/CursovoiProect/InsuranceCompany/InsuranceCompany/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/GSTU/3course5semester/DB/CursovoiProect/InsuranceCompany/InsuranceCompany/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -74,6 +62,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/GSTU/3course5semester/DB/CursovoiProect/InsuranceCompany/InsuranceCompany/Views/ClientInsuranceCases/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50SW5zdXJhbmNlQ2FzZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/GSTU/3course5semester/DB/CursovoiProect/InsuranceCompany/InsuranceCompany/Views/ClientManager/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50TWFuYWdlclxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/GSTU/3course5semester/DB/CursovoiProect/InsuranceCompany/InsuranceCompany/Views/Clients/Delete.cshtml]
@@ -118,6 +110,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/GSTU/3course5semester/DB/CursovoiProect/InsuranceCompany/InsuranceCompany/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/GSTU/3course5semester/DB/CursovoiProect/InsuranceCompany/InsuranceCompany/Views/InsuranceAgentManager/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdXJhbmNlQWdlbnRNYW5hZ2VyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/GSTU/3course5semester/DB/CursovoiProect/InsuranceCompany/InsuranceCompany/Views/InsuranceAgents/Delete.cshtml]
