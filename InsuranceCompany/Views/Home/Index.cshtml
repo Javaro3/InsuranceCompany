@@ -7,28 +7,7 @@
     ViewData["Title"] = "Главная страницы";
 }
 
-<style>
-    .card:hover {
-        transform: scale(1.05);
-        transition: transform 0.3s ease;
-    }
-    .info-block {
-        border: 2px solid #3498db; 
-        border-radius: 10px; 
-        padding: 15px; 
-        margin-bottom: 20px; 
-        transition: all 0.3s ease; 
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-        cursor: pointer; 
-    }
-    .info-block:hover {
-        background-color: #3498db;
-        color: #ffffff; 
-        transform: scale(1.05);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-</style>
-<div class="text-center col">
+<div class="text-center">
     <div class="row justify-content-center align-items-center " style="height: 400px;">
         <h1 class="display-4 text-primary">Страховая компания</h1>
         @if (SignInManager.IsSignedIn(User)) {
@@ -37,11 +16,5 @@
         else {
             <a class="w-50 btn btn-lg btn-primary" asp-area="Identity" asp-page="/Account/Register">Зарегистрироваться</a>
         }
-    </div>
-    <h1 class="display-4 text-primary">Типы страховок</h1>
-    <div class="container mt-4 overflow-auto">
-        <div class="row flex-nowrap">
-              @Html.InsuranceTypesHorizontalScrollView(Model);
-        </div>
     </div>
 </div>
