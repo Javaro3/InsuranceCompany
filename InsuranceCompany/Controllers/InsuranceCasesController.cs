@@ -1,6 +1,7 @@
 ﻿using InsuranceCompany.Data.Utilities;
 using InsuranceCompany.Models;
 using InsuranceCompany.Services;
+using InsuranceCompany.Utilities;
 using InsuranceCompany.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

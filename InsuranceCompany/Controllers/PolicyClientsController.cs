@@ -2,6 +2,7 @@
 using InsuranceCompany.Data.Utilities;
 using InsuranceCompany.Models;
 using InsuranceCompany.Services;
+using InsuranceCompany.Utilities;
 using InsuranceCompany.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,24 +11,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InsuranceCompany.Controllers {
     [Authorize(Roles = "Клиент")]
-    public class PolicyClientsController : Controller {
-        private readonly InsuranceCompanyContext _context;
-        private readonly InsuranceCompanyCache _cache;
-        private readonly InsuranceCompanyCookieManager _cookieManager;
-        private readonly InsuranceCompanyFilter _filter;
+    public class PolicyClientsController : BaseController, IUpdateCache {
         private readonly UserManager<ApplicationUser> _userManager;
         private const int PAGE_SIZE = 9;
 
         public PolicyClientsController(
-            InsuranceCompanyContext context,
-            InsuranceCompanyCache cache,
-            InsuranceCompanyCookieManager cookieManager,
+            InsuranceCompanyContext context, 
+            InsuranceCompanyCache cache, 
+            InsuranceCompanyCookieManager cookieManager, 
             InsuranceCompanyFilter filter,
-            UserManager<ApplicationUser> userManager) {
-            _context = context;
-            _cache = cache;
-            _cookieManager = cookieManager;
-            _filter = filter;
+            UserManager<ApplicationUser> userManager) : base(context, cache, cookieManager, filter) {
             _userManager = userManager;
         }
 
@@ -111,7 +104,7 @@ namespace InsuranceCompany.Controllers {
 
             _context.Add(new PolicyClient() { ClientId = client.Id, PolicyId = policy.Id });
             await _context.SaveChangesAsync();
-            _cache.SetEntity<PolicyClient>();
+            UpdateCache();
             return RedirectToAction(nameof(Index));
         }
 
@@ -137,7 +130,7 @@ namespace InsuranceCompany.Controllers {
             }
 
             await _context.SaveChangesAsync();
-            _cache.SetEntity<PolicyClient>();
+            UpdateCache();
             return RedirectToAction(nameof(Index));
         }
 
@@ -163,6 +156,10 @@ namespace InsuranceCompany.Controllers {
                     applicationUser.Surname == e.Surname &&
                     applicationUser.MiddleName == e.MiddleName);
 
+        }
+
+        public void UpdateCache() {
+            _cache.SetEntity<PolicyClient>();
         }
     }
 }

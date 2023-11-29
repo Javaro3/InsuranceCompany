@@ -2,6 +2,7 @@
 using InsuranceCompany.Data.Utilities;
 using InsuranceCompany.Models;
 using InsuranceCompany.Services;
+using InsuranceCompany.Utilities;
 using InsuranceCompany.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,24 +12,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InsuranceCompany.Controllers {
     [Authorize(Roles = "Страховой агент")]
-    public class InsuranceAgentsController : Controller {
-        private readonly InsuranceCompanyContext _context;
-        private readonly InsuranceCompanyCache _cache;
-        private readonly InsuranceCompanyCookieManager _cookieManager;
-        private readonly InsuranceCompanyFilter _filter;
+    public class InsuranceAgentsController : BaseController, IUpdateCache {
         private readonly UserManager<ApplicationUser> _userManager;
         private const int PAGE_SIZE = 9;
 
         public InsuranceAgentsController(
-            InsuranceCompanyContext context,
-            InsuranceCompanyCache cache,
-            InsuranceCompanyCookieManager cookieManager,
+            InsuranceCompanyContext context, 
+            InsuranceCompanyCache cache, 
+            InsuranceCompanyCookieManager cookieManager, 
             InsuranceCompanyFilter filter,
-            UserManager<ApplicationUser> userManager) {
-            _context = context;
-            _cache = cache;
-            _cookieManager = cookieManager;
-            _filter = filter;
+            UserManager<ApplicationUser> userManager) : base(context, cache, cookieManager, filter) {
             _userManager = userManager;
         }
 
@@ -155,7 +148,7 @@ namespace InsuranceCompany.Controllers {
             });
         }
 
-        private void UpdateCache() {
+        public void UpdateCache() {
             _cache.SetEntity<InsuranceAgent>();
             _cache.SetEntity<Policy>();
             _cache.SetEntity<PolicyClient>();

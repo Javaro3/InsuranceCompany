@@ -260,3 +260,4 @@ D:\GSTU\3course5semester\DB\CursovoiProect\InsuranceCompany\InsuranceCompany\bin
 D:\GSTU\3course5semester\DB\CursovoiProect\InsuranceCompany\InsuranceCompany\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.UI.dll
 D:\GSTU\3course5semester\DB\CursovoiProect\InsuranceCompany\InsuranceCompany\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Embedded.dll
 D:\GSTU\3course5semester\DB\CursovoiProect\InsuranceCompany\InsuranceCompany\obj\Debug\net7.0\InsuranceCompany.MvcApplicationPartsAssemblyInfo.cs
+D:\GSTU\3course5semester\DB\CursovoiProect\InsuranceCompany\InsuranceCompany\obj\Debug\net7.0\InsuranceCompany.sourcelink.json

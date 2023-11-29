@@ -2,6 +2,7 @@
 using InsuranceCompany.Data.Utilities;
 using InsuranceCompany.Models;
 using InsuranceCompany.Services;
+using InsuranceCompany.Utilities;
 using InsuranceCompany.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,22 +11,14 @@ using System.Data;
 
 namespace InsuranceCompany.Controllers {
     [Authorize(Roles = "Страховой агент")]
-    public class SupportingDocumentsController : Controller {
-        private readonly InsuranceCompanyContext _context;
-        private readonly InsuranceCompanyCache _cache;
-        private readonly InsuranceCompanyCookieManager _cookieManager;
-        private readonly InsuranceCompanyFilter _filter;
+    public class SupportingDocumentsController : BaseController, IUpdateCache {
         private const int PAGE_SIZE = 9;
 
         public SupportingDocumentsController(
-            InsuranceCompanyContext context,
-            InsuranceCompanyCache cache,
-            InsuranceCompanyCookieManager cookieManager,
-            InsuranceCompanyFilter filter) {
-            _context = context;
-            _cache = cache;
-            _cookieManager = cookieManager;
-            _filter = filter;
+            InsuranceCompanyContext context, 
+            InsuranceCompanyCache cache, 
+            InsuranceCompanyCookieManager cookieManager, 
+            InsuranceCompanyFilter filter) : base(context, cache, cookieManager, filter) {
         }
 
         public async Task<IActionResult> Index(int page, int pageSize = PAGE_SIZE) {
@@ -136,7 +129,7 @@ namespace InsuranceCompany.Controllers {
             return RedirectToAction(nameof(Index));
         }
 
-        private void UpdateCache() {
+        public void UpdateCache() {
             _cache.SetEntity<SupportingDocument>();
             _cache.SetEntity<InsuranceCase>();
         }
