@@ -1,11 +1,11 @@
-﻿using InsuranceCompany.Data.Utilities;
-using InsuranceCompany.Models;
-using InsuranceCompany.Services;
-using InsuranceCompany.Utilities;
-using InsuranceCompany.ViewModels;
+﻿using InsuranceCompany.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Models.Models;
+using Models.ViewModels.FilterViewModels;
+using Models.ViewModels.PageViewModels;
+using Service;
 using System.Data;
 
 namespace InsuranceCompany.Controllers {

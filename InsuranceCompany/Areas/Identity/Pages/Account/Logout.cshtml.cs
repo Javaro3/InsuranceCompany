@@ -1,7 +1,7 @@
-﻿using InsuranceCompany.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Models.Models;
 
 namespace InsuranceCompany.Areas.Identity.Pages.Account {
     public class LogoutModel : PageModel {

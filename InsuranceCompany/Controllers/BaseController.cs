@@ -1,7 +1,7 @@
-﻿using InsuranceCompany.Data;
-using InsuranceCompany.Data.Utilities;
-using InsuranceCompany.Services;
+﻿using InsuranceCompany.Services;
 using Microsoft.AspNetCore.Mvc;
+using Repository;
+using Service;
 
 namespace InsuranceCompany.Controllers {
     public class BaseController : Controller {

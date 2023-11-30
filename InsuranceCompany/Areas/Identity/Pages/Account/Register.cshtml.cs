@@ -1,12 +1,12 @@
-﻿using InsuranceCompany.Areas.Identity.Models;
-using InsuranceCompany.Data;
-using InsuranceCompany.Data.Utilities;
-using InsuranceCompany.Models;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Models.Models;
+using Models.ViewModels.IdentityViewModels;
+using Repository;
+using Service;
 
 namespace InsuranceCompany.Areas.Identity.Pages.Account {
     public class RegisterModel : PageModel {

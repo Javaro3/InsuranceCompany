@@ -1,6 +1,6 @@
-﻿using InsuranceCompany.Data.Utilities;
-using InsuranceCompany.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Models.Models;
+using Service;
 
 namespace InsuranceCompany.Controllers {
     public class HomeController : Controller {

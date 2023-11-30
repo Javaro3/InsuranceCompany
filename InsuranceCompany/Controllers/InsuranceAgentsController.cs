@@ -1,14 +1,14 @@
-﻿using InsuranceCompany.Data;
-using InsuranceCompany.Data.Utilities;
-using InsuranceCompany.Models;
-using InsuranceCompany.Services;
-using InsuranceCompany.Utilities;
-using InsuranceCompany.ViewModels;
+﻿using InsuranceCompany.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Models.Models;
+using Models.ViewModels.FilterViewModels;
+using Models.ViewModels.PageViewModels;
+using Repository;
+using Service;
 
 namespace InsuranceCompany.Controllers {
     [Authorize(Roles = "Страховой агент")]
@@ -17,9 +17,9 @@ namespace InsuranceCompany.Controllers {
         private const int PAGE_SIZE = 9;
 
         public InsuranceAgentsController(
-            InsuranceCompanyContext context, 
-            InsuranceCompanyCache cache, 
-            InsuranceCompanyCookieManager cookieManager, 
+            InsuranceCompanyContext context,
+            InsuranceCompanyCache cache,
+            InsuranceCompanyCookieManager cookieManager,
             InsuranceCompanyFilter filter,
             UserManager<ApplicationUser> userManager) : base(context, cache, cookieManager, filter) {
             _userManager = userManager;

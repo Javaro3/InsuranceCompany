@@ -1,12 +1,12 @@
-﻿using InsuranceCompany.Data;
-using InsuranceCompany.Data.Utilities;
-using InsuranceCompany.Models;
-using InsuranceCompany.Services;
-using InsuranceCompany.Utilities;
-using InsuranceCompany.ViewModels;
+﻿using InsuranceCompany.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Models.Models;
+using Models.ViewModels.FilterViewModels;
+using Models.ViewModels.PageViewModels;
+using Repository;
+using Service;
 using System.Data;
 
 namespace InsuranceCompany.Controllers {
@@ -15,9 +15,9 @@ namespace InsuranceCompany.Controllers {
         private const int PAGE_SIZE = 9;
 
         public SupportingDocumentsController(
-            InsuranceCompanyContext context, 
-            InsuranceCompanyCache cache, 
-            InsuranceCompanyCookieManager cookieManager, 
+            InsuranceCompanyContext context,
+            InsuranceCompanyCache cache,
+            InsuranceCompanyCookieManager cookieManager,
             InsuranceCompanyFilter filter) : base(context, cache, cookieManager, filter) {
         }
 
@@ -94,7 +94,7 @@ namespace InsuranceCompany.Controllers {
                 }
                 catch (DbUpdateConcurrencyException) {
                     return NotFound();
-                    
+
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -119,7 +119,7 @@ namespace InsuranceCompany.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id) {
             var supportingDocument = _cache.GetEntity<SupportingDocument>().FirstOrDefault(e => e.Id == id);
-            
+
             if (supportingDocument != null) {
                 _context.SupportingDocuments.Remove(supportingDocument);
             }

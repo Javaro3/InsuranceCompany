@@ -1,10 +1,10 @@
-using InsuranceCompany.Data;
-using InsuranceCompany.Data.Utilities;
 using InsuranceCompany.Middleware;
-using InsuranceCompany.Models;
 using InsuranceCompany.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Models.Models;
+using Repository;
+using Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,7 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
 builder.Services
-    .AddDefaultIdentity<ApplicationUser>(options => 
+    .AddDefaultIdentity<ApplicationUser>(options =>
         options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+=\\/?! àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß"
     )
     .AddDefaultTokenProviders()

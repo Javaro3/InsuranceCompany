@@ -1,6 +1,4 @@
-﻿using InsuranceCompany.Models;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InsuranceCompany.Utilities {
