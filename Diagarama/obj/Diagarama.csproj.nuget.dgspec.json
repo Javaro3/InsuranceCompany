@@ -35,6 +35,15 @@
             "projectReferences": {
               "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\InsuranceCompany\\InsuranceCompany.csproj": {
                 "projectPath": "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\InsuranceCompany\\InsuranceCompany.csproj"
+              },
+              "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\Models\\Models.csproj": {
+                "projectPath": "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\Models\\Models.csproj"
+              },
+              "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\Repository\\Repository.csproj": {
+                "projectPath": "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\Repository\\Repository.csproj"
+              },
+              "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\Service\\Service.csproj": {
+                "projectPath": "D:\\GSTU\\3course5semester\\DB\\CursovoiProect\\InsuranceCompany\\Service\\Service.csproj"
               }
             }
           }

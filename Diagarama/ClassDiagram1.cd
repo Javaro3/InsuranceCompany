@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Models.Models.AgentType">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.Models.ApplicationUser">
+    <Position X="6.75" Y="2" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.Models.Client">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.Models.Contract">
+    <Position X="5.5" Y="7.75" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.Models.InsuranceAgent">
+    <Position X="6" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Contract" />
+      <Property Name="AgentType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Models.Models.InsuranceCase">
+    <Position X="0.5" Y="4.25" Width="2" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="SupportingDocument" />
+      <Property Name="Client" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Models.Models.InsuranceType">
+    <Position X="3" Y="7.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.Models.Policy">
+    <Position X="2.75" Y="4.25" Width="1.75" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="InsuranceAgent" />
+      <Property Name="InsuranceType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Models.Models.PolicyClient">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Client" />
+      <Property Name="Policy" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Models.Models.SupportingDocument">
+    <Position X="0.5" Y="7.25" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.FilterViewModels.ClientFilterModel">
+    <Position X="10.75" Y="5.75" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.FilterViewModels.ContractFilterModel">
+    <Position X="10.75" Y="2" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.FilterViewModels.InsuranceAgentFilterModel">
+    <Position X="13.25" Y="6.25" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.FilterViewModels.InsuranceCaseFilterModel">
+    <Position X="8" Y="4.5" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.FilterViewModels.InsuranceTypeFilterModel">
+    <Position X="8.5" Y="2" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.FilterViewModels.PolicyFilterModel">
+    <Position X="13.25" Y="2" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.FilterViewModels.SupportingDocumentFilterModel">
+    <Position X="8" Y="8" Width="2.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.Utilities.SortType">
+    <Position X="15.5" Y="2" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.IdentityViewModels.ChangePasswordViewModel">
+    <Position X="17.25" Y="2" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.IdentityViewModels.ClientInputModel">
+    <Position X="17.5" Y="4" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.IdentityViewModels.InsuranceAgentInputModel">
+    <Position X="15.75" Y="9.25" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.IdentityViewModels.LoginInputModel">
+    <Position X="15.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.IdentityViewModels.RegisterInputModel">
+    <Position X="15.75" Y="6.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.PageViewModels.PageModel&lt;T, K&gt;">
+    <Position X="18" Y="6.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Models.ViewModels.PageViewModels.PageModelWithAggregateValue&lt;T, K, E&gt;">
+    <Position X="18.25" Y="9.5" Width="3" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Repository.InsuranceCompanyContext">
+    <Position X="19.75" Y="2" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Repository.InsuranceCompanyIdentityContext">
+    <Position X="19.75" Y="5.5" Width="2.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Repository.DbInitializer.InitializeData">
+    <Position X="22.5" Y="3.5" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Repository.DbInitializer.InsuranceCompanyInitializer">
+    <Position X="22.25" Y="2" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Repository.DbInitializer.RandomExtensions">
+    <Position X="20.25" Y="7.25" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Service.InsuranceCompanyCache">
+    <Position X="0.5" Y="9.75" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Service.InsuranceCompanyFactory">
+    <Position X="3" Y="10" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Service.InsuranceCompanyFilter">
+    <Position X="5.5" Y="10.75" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Service.SortExtensions">
+    <Position X="8" Y="10" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="InsuranceCompany.Utilities.HtmlHelperExtensions">
+    <Position X="8" Y="11.25" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="InsuranceCompany.Services.InsuranceCompanyCookieManager">
+    <Position X="10.25" Y="10.5" Width="2.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="InsuranceCompany.Middleware.DbInitializerMiddleware">
+    <Position X="13.5" Y="11.25" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="InsuranceCompany.Middleware.DbInitializerMiddlewareExtensions">
+    <Position X="10.25" Y="12.25" Width="2.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.BaseController">
+    <Position X="0.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.ClientInsuranceCasesController">
+    <Position X="5.5" Y="14.5" Width="2.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.ClientManagerController" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="6.5" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.ClientsController">
+    <Position X="12.75" Y="14.5" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.ContractsController">
+    <Position X="0.5" Y="14.5" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.HomeController">
+    <Position X="18.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.InsuranceAgentManagerController" BaseTypeListCollapsed="true">
+    <Position X="21.75" Y="9.5" Width="2.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.InsuranceAgentsController">
+    <Position X="17.25" Y="14.5" Width="2.25" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.InsuranceCasesController">
+    <Position X="15.75" Y="11.75" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.InsuranceTypesController">
+    <Position X="8.25" Y="14.5" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.PoliciesController">
+    <Position X="10.5" Y="14.5" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.PolicyClientsController">
+    <Position X="15" Y="14.5" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="InsuranceCompany.Controllers.SupportingDocumentsController">
+    <Position X="2.75" Y="14.5" Width="2.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="InsuranceCompany.Areas.Identity.Pages.Account.LoginModel">
+    <Position X="20" Y="11.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="InsuranceCompany.Areas.Identity.Pages.Account.LogoutModel">
+    <Position X="21.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="InsuranceCompany.Areas.Identity.Pages.Account.RegisterModel">
+    <Position X="23.5" Y="11.75" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="Service.IUpdateCache">
+    <Position X="3.25" Y="12" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
