@@ -27,7 +27,8 @@ namespace InsuranceCompany.Controllers {
 
         public async Task<IActionResult> Index(int page, int pageSize = PAGE_SIZE) {
             var insuranceAgentFilter = _cookieManager.GetCookie<InsuranceAgentFilterModel>(HttpContext.Request.Cookies);
-            var insuranceAgents = _filter.Filter(insuranceAgentFilter);
+            var insuranceAgentId = GetInsuranceAgent().Id;
+            var insuranceAgents = _filter.Filter(insuranceAgentFilter).Where(e => e.Id != insuranceAgentId);
             var viewModel = new PageModel<InsuranceAgent, InsuranceAgentFilterModel>(page, pageSize, insuranceAgents, insuranceAgentFilter);
 
             return View(viewModel);
@@ -36,7 +37,8 @@ namespace InsuranceCompany.Controllers {
         [HttpPost]
         public async Task<IActionResult> Index(InsuranceAgentFilterModel insuranceAgentFilter, int page, int pageSize = PAGE_SIZE) {
             _cookieManager.SetCookie(insuranceAgentFilter, HttpContext.Response.Cookies);
-            var insuranceAgents = _filter.Filter(insuranceAgentFilter);
+            var insuranceAgentId = GetInsuranceAgent().Id;
+            var insuranceAgents = _filter.Filter(insuranceAgentFilter).Where(e => e.Id != insuranceAgentId);
             var viewModel = new PageModel<InsuranceAgent, InsuranceAgentFilterModel>(page, pageSize, insuranceAgents, insuranceAgentFilter);
 
             return View(viewModel);
@@ -152,6 +154,15 @@ namespace InsuranceCompany.Controllers {
             _cache.SetEntity<InsuranceAgent>();
             _cache.SetEntity<Policy>();
             _cache.SetEntity<PolicyClient>();
+        }
+
+        private InsuranceAgent GetInsuranceAgent() {
+            var applicationUser = _userManager.GetUserAsync(HttpContext.User).Result;
+            return _cache.GetEntity<InsuranceAgent>()
+                .FirstOrDefault(e =>
+                    applicationUser.Name == e.Name &&
+                    applicationUser.Surname == e.Surname &&
+                    applicationUser.MiddleName == e.MiddleName);
         }
     }
 }
