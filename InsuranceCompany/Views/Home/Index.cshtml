@@ -6,15 +6,47 @@
 @{
     ViewData["Title"] = "Главная страницы";
 }
+<style>
+    .scrollable-container {
+        overflow-x: auto;
+    }
 
-<div class="text-center">
-    <div class="row justify-content-center align-items-center " style="height: 400px;">
-        <h1 class="display-4 text-primary">Страховая компания</h1>
-        @if (SignInManager.IsSignedIn(User)) {
-            <h1 class="display-4 text-primary">Добро пожаловать @UserManager.GetUserAsync(User).Result.Name</h1>
-        }
-        else {
-            <a class="w-50 btn btn-lg btn-primary" asp-area="Identity" asp-page="/Account/Register">Зарегистрироваться</a>
-        }
+    .scrollable-content {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+</style>
+
+
+<div class="row justify-content-center align-items-center text-center" style="height: 400px;">
+    <h1 class="display-4 text-primary">Страховая компания</h1>
+    @if (SignInManager.IsSignedIn(User)) {
+        <h1 class="display-4 text-primary">Добро пожаловать @UserManager.GetUserAsync(User).Result.Name</h1>
+    }
+    else {
+        <a class="w-50 btn btn-lg btn-primary" asp-area="Identity" asp-page="/Account/Register">Зарегистрироваться</a>
+    }
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center display-4 text-primary">Типы страховок</h2>
+            <div class="scrollable-container">
+                <div class="scrollable-content">
+                    @foreach (var insuranceType in Model) {
+                        <div class="col-md-4" style="margin: 1rem;">
+                            <div class="card mb-3" style="min-height: 11rem;">
+                                <h3 class="card-header text-primary">@insuranceType.Name</h3>
+                                <div class="card-body">
+                                    <h5 class="card-title">@Html.DisplayNameFor(model => insuranceType.Description)</h5>
+                                    <h6 class="card-subtitle text-muted">@insuranceType.Description</h6>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 </div>
